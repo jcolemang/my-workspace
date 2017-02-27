@@ -7,9 +7,12 @@ import qualified Data.Map as Map
 
 -- ~~~~~ Helper Functions ~~~~~
 
+brightnessDown = 232
+brightnessUp = 233
+
 -- ~~~~~ My Configuration ~~~~~
 
--- basic variables
+-- basic configuration variables
 myTerminal = "terminator"
 myFocusFollowsMouse = False
 myBrowser = "google-chrome-stable"
@@ -58,20 +61,27 @@ myKeys conf = Map.fromList $
 
   ++
 
-  -- XMonad control
-  [ ((myModMask, xK_c), kill)
-  , ((myModMask, xK_q), broadcastMessage ReleaseResources >> restart "xmonad" True)
-  , ((myModMask .|. shiftMask, xK_q), spawn "gnome-session-quit --kill")
-  ]
-
-  ++
-
   -- window control
   [ ((myModMask, xK_period), sendMessage (IncMasterN 1))
   , ((myModMask, xK_comma), sendMessage (IncMasterN (-1)))
   , ((myModMask, xK_h), sendMessage Shrink)
   , ((myModMask, xK_l), sendMessage Expand)
   , ((myModMask, xK_space), sendMessage NextLayout)
+  ]
+
+  ++
+
+  -- XMonad control
+  [ ((myModMask .|. shiftMask, xK_c), kill)
+  , ((myModMask, xK_q), broadcastMessage ReleaseResources >> restart "xmonad" True)
+  , ((myModMask .|. shiftMask, xK_q), spawn "gnome-session-quit --kill")
+  ]
+
+  ++
+
+  -- OS control
+  [ ((myModMask .|. shiftMask, xK_slash), spawn "xbacklight -dec 5")
+  , ((myModMask .|. shiftMask, xK_backslash), spawn "xbacklight -inc 5")
   ]
 
   ++
@@ -83,6 +93,7 @@ myKeys conf = Map.fromList $
                                                   , (SS.shift, shiftMask)
                                                   ]
                                 ]
+
 
 numPadKeys = [ xK_KP_End,  xK_KP_Down,  xK_KP_Page_Down -- 1, 2, 3
              , xK_KP_Left, xK_KP_Begin, xK_KP_Right     -- 4, 5, 6
