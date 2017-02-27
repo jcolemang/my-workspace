@@ -1,0 +1,12 @@
+
+# xmonad ignore
+*xmonad.o
+*xmonad.hi
+*xmonad.state
+*xmonad.errors
+*xmonad-x86_64-linux
+
+# emacs ignore
+.emacs.d/tests/
+.emacs.d/layers/
+.emacs.d/news/
