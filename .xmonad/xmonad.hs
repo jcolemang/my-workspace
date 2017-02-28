@@ -89,7 +89,7 @@ myKeys conf = Map.fromList $
   -- keybindings for workspaces
   [ ((mask .|. myModMask, key)
     , windows $ func workspace) | (workspace, key) <- zip myWorkspaces numPadKeys
-                                , (func, mask) <- [(SS.greedyView, 0)
+                                , (func, mask) <- [ (SS.greedyView, 0)
                                                   , (SS.shift, shiftMask)
                                                   ]
                                 ]

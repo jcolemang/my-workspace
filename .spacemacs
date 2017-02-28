@@ -397,6 +397,9 @@ you should place your code here."
   ;; haskell
   (evil-leader/set-key "irh" 'run-haskell)
 
+  ;; Prolog
+  (add-to-list 'auto-mode-alist '("\\.\\(pl\\|pro\\|lgt\\)" . prolog-mode))
+
   )
 
 
