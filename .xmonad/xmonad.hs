@@ -7,9 +7,6 @@ import qualified Data.Map as Map
 
 -- ~~~~~ Helper Functions ~~~~~
 
-brightnessDown = 232
-brightnessUp = 233
-
 -- ~~~~~ My Configuration ~~~~~
 
 -- basic configuration variables
@@ -83,14 +80,14 @@ myKeys conf = Map.fromList $
   -- OS control
   [ ((myModMask .|. shiftMask, xK_slash), spawn "xbacklight -dec 5")
   , ((myModMask .|. shiftMask, xK_backslash), spawn "xbacklight -inc 5")
-  , ((myModMask, xK_slash), spawn "amixer -q sset Master 5%+")
-  , ((myModMask, xK_backslash), spawn "amixer -q sset Master 5%-")
+  , ((myModMask, xK_slash), spawn "amixer -q sset Master 5%-")
+  , ((myModMask, xK_backslash), spawn "amixer -q sset Master 5%+")
   ]
 
   ++
 
   -- keybindings for workspaces
-  [ ((mask .|. myModMask, key)
+  [ ( (mask .|. myModMask, key)
     , windows $ func workspace) | (workspace, key) <- zip myWorkspaces numPadKeys
                                 , (func, mask) <- [ (SS.greedyView, 0)
                                                   , (SS.shift, shiftMask)
@@ -101,7 +98,7 @@ myKeys conf = Map.fromList $
 numPadKeys = [ xK_KP_End,  xK_KP_Down,  xK_KP_Page_Down -- 1, 2, 3
              , xK_KP_Left, xK_KP_Begin, xK_KP_Right     -- 4, 5, 6
              , xK_KP_Home, xK_KP_Up,    xK_KP_Page_Up   -- 7, 8, 9
-             , xK_KP_Insert
+             , xK_KP_Insert                             --    0
              ]
 
 
