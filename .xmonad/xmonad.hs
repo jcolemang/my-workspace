@@ -67,6 +67,7 @@ myKeys conf = Map.fromList $
   , ((myModMask, xK_h), sendMessage Shrink)
   , ((myModMask, xK_l), sendMessage Expand)
   , ((myModMask, xK_space), sendMessage NextLayout)
+  , ((myModMask, xK_Tab), setTopFocus)
   ]
 
   ++
@@ -74,7 +75,7 @@ myKeys conf = Map.fromList $
   -- XMonad control
   [ ((myModMask .|. shiftMask, xK_c), kill)
   , ((myModMask, xK_q), broadcastMessage ReleaseResources >> restart "xmonad" True)
-  , ((myModMask .|. shiftMask, xK_q), spawn "gnome-session-quit --kill")
+  , ((myModMask .|. shiftMask, xK_q), spawn "pkill xmonad-x86_64-l")
   ]
 
   ++
@@ -82,6 +83,8 @@ myKeys conf = Map.fromList $
   -- OS control
   [ ((myModMask .|. shiftMask, xK_slash), spawn "xbacklight -dec 5")
   , ((myModMask .|. shiftMask, xK_backslash), spawn "xbacklight -inc 5")
+  , ((myModMask, xK_slash), spawn "amixer -q sset Master 5%+")
+  , ((myModMask, xK_backslash), spawn "amixer -q sset Master 5%-")
   ]
 
   ++
