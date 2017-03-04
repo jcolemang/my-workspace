@@ -15,11 +15,12 @@ myModMask            = mod4Mask -- rebind mod to windows key
 myFocusedBorderColor = "0x641588"
 myNormalBorderColor  = "0xFF0000"
 myTerminal           = "terminator"
+startEmacs           = "emacs --daemon"
 browser              = "google-chrome-stable"
 appSearch            = "dmenu_run" -- rebind mod to windows key
 music                = "spotify"
 editor               = "emacsclient -nc"
-startEmacs           = "emacs --daemon"
+files                = "nautilus"
 
 
 -- script to set things like keyboard config
@@ -53,23 +54,25 @@ myManageHook = foldl mappend mempty
 myKeys conf = Map.fromList $
 
   -- opening applications
-  [ ((myModMask, xK_Return         )
+  [ ( (myModMask, xK_Return        )
     , spawn $ XMonad.terminal conf )
 
-  , ((myModMask, xK_e )
-    , spawn editor    )
+  , ( (myModMask, xK_e )
+    , spawn editor     )
 
-  , ((myModMask .|. shiftMask, xK_e )
-    , spawn startEmacs              )
+  , ( (myModMask .|. shiftMask, xK_e )
+    , spawn startEmacs               )
+  , ( (myModMask, xK_w               )
+    , spawn browser                  )
 
-  , ((myModMask, xK_w )
-    , spawn browser   )
+  , ( (myModMask, xK_s )
+    , spawn appSearch  )
 
-  , ((myModMask, xK_s )
-    , spawn appSearch )
+  , ( (myModMask, xK_m )
+    , spawn music      )
 
-  , ((myModMask, xK_m )
-    , spawn music     )
+  , ( (myModMask, xK_f )
+    , spawn files      )
 
   ]
 
@@ -99,30 +102,30 @@ myKeys conf = Map.fromList $
   ++
 
   -- XMonad control
-  [ ((myModMask .|. shiftMask, xK_c )
-    , kill                          )
+  [ ( (myModMask .|. shiftMask, xK_c )
+    , kill                           )
 
-  , ((myModMask, xK_q                                            )
+  , ( (myModMask, xK_q                                           )
     , broadcastMessage ReleaseResources >> restart "xmonad" True )
 
-  , ((myModMask .|. shiftMask, xK_q )
-    , spawn "pkill xmonad-x86_64-l" )
+  , ( (myModMask .|. shiftMask, xK_q )
+    , spawn "pkill xmonad-x86_64-l"  )
 
   ]
 
   ++
 
   -- OS control
-  [ ((myModMask .|. shiftMask, xK_slash )
-    , spawn "xbacklight -dec 5"         )
+  [ ( (myModMask .|. shiftMask, xK_slash )
+    , spawn "xbacklight -dec 5"          )
 
-  , ((myModMask .|. shiftMask, xK_backslash )
-    , spawn "xbacklight -inc 5"             )
+  , ( (myModMask .|. shiftMask, xK_backslash )
+    , spawn "xbacklight -inc 5"              )
 
-  , ((myModMask, xK_slash               )
+  , ( (myModMask, xK_slash              )
     , spawn "amixer -q sset Master 5%-" )
 
-  , ((myModMask, xK_backslash           )
+  , ( (myModMask, xK_backslash          )
     , spawn "amixer -q sset Master 5%+" )
   ]
 
@@ -130,11 +133,12 @@ myKeys conf = Map.fromList $
 
   -- keybindings for workspaces
   [ ( (mask .|. myModMask, key)
-    , windows $ func workspace) | (workspace, key) <- zip myWorkspaces numPadKeys
-                                , (func, mask)     <- [ (SS.greedyView, 0)
-                                                      , (SS.shift, shiftMask)
-                                                      ]
-                                ]
+    , windows $ func workspace)
+  | (workspace, key) <- zip myWorkspaces numPadKeys
+  , (func, mask)     <- [ (SS.greedyView, 0)
+                        , (SS.shift, shiftMask)
+                        ]
+  ]
 
 
 numPadKeys = [ xK_KP_End    ,xK_KP_Down , xK_KP_Page_Down -- 1, 2, 3
