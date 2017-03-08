@@ -3,6 +3,7 @@
 import qualified Data.Map        as Map
 import           XMonad
 import qualified XMonad.StackSet as SS
+import Graphics.X11.ExtraTypes.XF86
 -- import XMonad.Util.EZConfig
 
 -- ~~~~~ Helper Functions ~~~~~
@@ -18,7 +19,7 @@ myTerminal           = "terminator"
 startEmacs           = "emacs --daemon"
 browser              = "google-chrome-stable"
 appSearch            = "dmenu_run" -- rebind mod to windows key
-music                = "spotify"
+music                = "spotify" -- code to skip songs relies on this
 editor               = "emacsclient -nc"
 files                = "nautilus"
 
@@ -54,79 +55,108 @@ myManageHook = foldl mappend mempty
 myKeys conf = Map.fromList $
 
   -- opening applications
-  [ ( (myModMask, xK_Return        )
+  [ ( (myModMask, xK_Return)
     , spawn $ XMonad.terminal conf )
 
-  , ( (myModMask, xK_e )
-    , spawn editor     )
+  , ( (myModMask, xK_e)
+    , spawn editor )
 
-  , ( (myModMask .|. shiftMask, xK_e )
-    , spawn startEmacs               )
-  , ( (myModMask, xK_w               )
-    , spawn browser                  )
+  , ( (myModMask .|. shiftMask, xK_e)
+    , spawn startEmacs )
+  , ( (myModMask, xK_w)
+    , spawn browser )
 
-  , ( (myModMask, xK_s )
-    , spawn appSearch  )
+  , ( (myModMask, xK_s)
+    , spawn appSearch )
 
-  , ( (myModMask, xK_m )
-    , spawn music      )
+  , ( (myModMask, xK_m)
+    , spawn music )
 
-  , ( (myModMask, xK_f )
-    , spawn files      )
+  , ( (myModMask, xK_f)
+    , spawn files )
 
   ]
 
   ++
 
   -- window control
-  [ ( (myModMask, xK_period      )
+  [ ( (myModMask, xK_period)
     , sendMessage (IncMasterN 1) )
 
-  , ( (myModMask, xK_comma          )
+  , ( (myModMask, xK_comma)
     , sendMessage (IncMasterN (-1)) )
 
-  , ( (myModMask, xK_h   )
+  , ( (myModMask, xK_h)
     , sendMessage Shrink )
 
-  , ( (myModMask, xK_l   )
+  , ( (myModMask, xK_l)
     , sendMessage Expand )
 
-  , ( (myModMask, xK_space   )
+  , ( (myModMask, xK_space)
     , sendMessage NextLayout )
 
-  , ( (myModMask, xK_Tab )
-    , setTopFocus        )
-
+  , ( (myModMask, xK_Tab)
+    , setTopFocus )
   ]
 
   ++
 
   -- XMonad control
-  [ ( (myModMask .|. shiftMask, xK_c )
-    , kill                           )
+  [ ( (myModMask .|. shiftMask, xK_c)
+    , kill )
 
-  , ( (myModMask, xK_q                                           )
+  , ( (myModMask, xK_q)
     , broadcastMessage ReleaseResources >> restart "xmonad" True )
 
-  , ( (myModMask .|. shiftMask, xK_q )
-    , spawn "pkill xmonad-x86_64-l"  )
+  , ( (myModMask .|. shiftMask, xK_q)
+    , spawn "pkill xmonad-x86_64-l" )
 
   ]
 
   ++
 
   -- OS control
-  [ ( (myModMask .|. shiftMask, xK_slash )
-    , spawn "xbacklight -dec 5"          )
+  [ ( (myModMask .|. shiftMask, xK_slash)
+    , spawn "xbacklight -dec 5" )
 
-  , ( (myModMask .|. shiftMask, xK_backslash )
-    , spawn "xbacklight -inc 5"              )
+  , ( (myModMask .|. shiftMask, xK_backslash)
+    , spawn "xbacklight -inc 5" )
 
-  , ( (myModMask, xK_slash              )
+  , ( (myModMask, xK_slash)
     , spawn "amixer -q sset Master 5%-" )
 
-  , ( (myModMask, xK_backslash          )
+  , ( (myModMask, xK_backslash)
     , spawn "amixer -q sset Master 5%+" )
+
+  -- used command from https://ubuntuforums.org/showthread.php?t=1797848
+  , ( (0, xF86XK_AudioNext)
+    , spawn $
+      "dbus-send --print-reply " ++
+      "--dest=org.mpris.MediaPlayer2.spotify " ++
+      "/org/mpris/MediaPlayer2 " ++
+      "org.mpris.MediaPlayer2.Player.Next" )
+
+  , ( (0, xF86XK_AudioPrev)
+    , spawn $
+      "dbus-send --print-reply " ++
+      "--dest=org.mpris.MediaPlayer2.spotify " ++
+      "/org/mpris/MediaPlayer2 " ++
+      "org.mpris.MediaPlayer2.Player.Previous" )
+
+  , ( (0, xF86XK_AudioPlay)
+    , spawn $
+      "dbus-send --print-reply " ++
+      "--dest=org.mpris.MediaPlayer2.spotify " ++
+      "/org/mpris/MediaPlayer2 " ++
+      "org.mpris.MediaPlayer2.Player.Play" )
+
+  , ( (myModMask, xF86XK_AudioPlay)
+    , spawn $
+      "dbus-send --print-reply " ++
+      "--dest=org.mpris.MediaPlayer2.spotify " ++
+      "/org/mpris/MediaPlayer2 " ++
+      "org.mpris.MediaPlayer2.Player.Pause" )
+
   ]
 
   ++
