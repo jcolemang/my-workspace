@@ -6,7 +6,7 @@
 [[ $- != *i* ]] && return
 
 alias ls='ls --color=auto'
-PS1='[\u@\h \W]\$ '
+PS1='\n\w\n λ '
 
 
 # my stuff
@@ -36,9 +36,3 @@ alias data="cd ~/Classes/Current/advanced-databases/"
 # configuring editor
 export EDITOR=vim
 set -o vi
-
-
-
-
-
-
