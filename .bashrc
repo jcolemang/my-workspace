@@ -5,8 +5,12 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
+
+force_color_prompt=yes
+
 alias ls='ls --color=auto'
-PS1='\n\w\n λ '
+PS1='\e[1;35m\n\w \n λ \e[m'
+# export PS1="\e[0;31m[\u@\h \W]\$ \e[m "
 
 
 # my stuff
