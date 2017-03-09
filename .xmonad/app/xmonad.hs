@@ -4,7 +4,7 @@ import qualified Data.Map        as Map
 import           XMonad
 import qualified XMonad.StackSet as SS
 import Graphics.X11.ExtraTypes.XF86
---import XMonad.Hooks.SetWMName
+import XMonad.Hooks.SetWMName
 
 
 -- ~~~~~ Helper Functions ~~~~~
@@ -34,8 +34,10 @@ files                = "nautilus"
 
 
 -- script to set things like keyboard config
-myStartupHook =
+myStartupHook = do
+  setWMName "LG3D"
   spawn "~/.xmonad/scripts/startup.sh"
+
 
 
 -- workspace names
