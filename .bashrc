@@ -9,7 +9,7 @@
 force_color_prompt=yes
 
 alias ls='ls --color=auto'
-PS1='\e[1;35m\n\w \n λ \e[m'
+PS1='\n$(date +"%a, %r") | \w \n λ '
 # export PS1="\e[0;31m[\u@\h \W]\$ \e[m "
 
 
@@ -18,8 +18,6 @@ PS1='\e[1;35m\n\w \n λ \e[m'
 # aliases
 alias em="emacsclient -nc"
 alias killemacs="emacsclient -e \"(kill-emacs)\""
-alias balsamiq="sudo wine /opt/Balsamiq_Mockups_3/balsamiq.exe"
-alias camunda="/home/coleman/Classes/CSSE371/camunda-modeler/camunda-modeler"
 alias umlet="java -jar /home/coleman/Classes/CSSE374SoftwareDesign/UMLet/umlet.jar"
 alias telegram="/home/coleman/SourceRepos/Telegram/Telegram"
 alias update="/home/coleman/Code/Workstation/copy-workstation.sh"
@@ -31,7 +29,7 @@ alias sl="ls"
 alias l="ls"
 
 # classes
-alias classes="cd ~/Classes"
+alias classes="cd ~/Classes/Current/"
 alias plc="cd ~/Classes/Current/plc/"
 alias codes="cd ~/Classes/Current/algebraic-codes/"
 alias theory="cd ~/Classes/Current/theory-of-comp/"
