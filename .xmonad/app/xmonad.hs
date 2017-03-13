@@ -1,10 +1,10 @@
 {-# OPTIONS_GHC -fno-warn-missing-signatures #-}
 
-import qualified Data.Map        as Map
+import qualified Data.Map                     as Map
+import           Graphics.X11.ExtraTypes.XF86
 import           XMonad
-import qualified XMonad.StackSet as SS
-import Graphics.X11.ExtraTypes.XF86
-import XMonad.Hooks.SetWMName
+import           XMonad.Hooks.SetWMName
+import qualified XMonad.StackSet              as SS
 
 
 -- ~~~~~ Helper Functions ~~~~~
@@ -22,8 +22,8 @@ import XMonad.Hooks.SetWMName
 -- basic configuration variables
 myFocusFollowsMouse  = False
 myModMask            = mod4Mask -- rebind mod to windows key
-myFocusedBorderColor = "0x641588"
-myNormalBorderColor  = "0xFF0000"
+myFocusedBorderColor = "#641588"
+myNormalBorderColor  = "#FF0000"
 myTerminal           = "terminator"
 startEmacs           = "emacs --daemon"
 browser              = "google-chrome-stable"
@@ -138,16 +138,18 @@ myKeys conf = Map.fromList $
 
   -- OS control
   [ ( (myModMask .|. shiftMask, xK_slash)
-    , spawn "xbacklight -dec 5" )
-
+    , dimScreen )
   , ( (myModMask .|. shiftMask, xK_backslash)
-    , spawn "xbacklight -inc 5" )
+    , brightenScreen )
 
   , ( (myModMask, xK_slash)
-    , spawn "amixer -q sset Master 5%-" )
-
+    , lowerVolume )
   , ( (myModMask, xK_backslash)
-    , spawn "amixer -q sset Master 5%+" )
+    , raiseVolume )
+  , ( (0, xF86XK_AudioLowerVolume)
+    , lowerVolume )
+  , ( (0, xF86XK_AudioRaiseVolume)
+    , raiseVolume )
 
   -- used command from https://ubuntuforums.org/showthread.php?t=1797848
   , ( (0, xF86XK_AudioNext)
@@ -190,6 +192,11 @@ myKeys conf = Map.fromList $
                         , (SS.shift, shiftMask)
                         ]
   ]
+
+  where lowerVolume    = spawn "amixer -q sset Master 5%-"
+        raiseVolume    = spawn "amixer -q sset Master 5%+"
+        dimScreen      = spawn "xbacklight -dec 5"
+        brightenScreen = spawn "xbacklight -inc 5"
 
 
 numPadKeys = [ xK_KP_End    ,xK_KP_Down , xK_KP_Page_Down -- 1, 2, 3
