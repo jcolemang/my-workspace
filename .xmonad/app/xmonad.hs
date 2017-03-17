@@ -148,11 +148,11 @@ myKeys conf = Map.fromList $
   , ( (0, xF86XK_MonBrightnessUp)
     , brightenScreen )
 
-
   , ( (myModMask, xK_slash)
     , lowerVolume )
   , ( (myModMask, xK_backslash)
     , raiseVolume )
+
   , ( (0, xF86XK_AudioLowerVolume)
     , lowerVolume )
   , ( (0, xF86XK_AudioRaiseVolume)
@@ -195,7 +195,7 @@ myKeys conf = Map.fromList $
   [ ( (mask .|. myModMask, key)
     , windows $ func workspace)
   | (workspace, key) <- zip myWorkspaces numPadKeys
-  , (func, mask)     <- [ (SS.greedyView, 0)
+  , (func, mask)     <- [ (SS.view, 0)
                         , (SS.shift, shiftMask)
                         ]
   ]
