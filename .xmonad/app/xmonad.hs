@@ -22,8 +22,8 @@ import qualified XMonad.StackSet              as SS
 -- basic configuration variables
 myFocusFollowsMouse  = False
 myModMask            = mod4Mask -- rebind mod to windows key
-myFocusedBorderColor = "#641588"
-myNormalBorderColor  = "#FF0000"
+myFocusedBorderColor = "#641588" -- purple
+myNormalBorderColor  = "#000000" -- black
 myTerminal           = "terminator"
 startEmacs           = "emacs --daemon"
 browser              = "google-chrome-stable"
@@ -113,7 +113,7 @@ myKeys conf = Map.fromList $
     , windows SS.focusUp )
 
   , ( (myModMask, xK_b)
-    , windows SS.focusUp )
+    , windows SS.focusDown )
 
   -- , ( (myModMask, xK_o)
   --   , otherScreen )
@@ -127,10 +127,11 @@ myKeys conf = Map.fromList $
     , kill )
 
   , ( (myModMask, xK_q)
-    , broadcastMessage ReleaseResources >> restart "xmonad" True )
+    , do broadcastMessage ReleaseResources
+         restart "myxmonad" True )
 
   , ( (myModMask .|. shiftMask, xK_q)
-    , spawn "pkill xmonad-x86_64-l" )
+    , spawn "pkill myxmonad" )
 
   ]
 
@@ -139,8 +140,14 @@ myKeys conf = Map.fromList $
   -- OS control
   [ ( (myModMask .|. shiftMask, xK_slash)
     , dimScreen )
-  , ( (myModMask .|. shiftMask, xK_backslash)
+  , ( (0, xF86XK_MonBrightnessDown)
+    , dimScreen )
+
+  , ( (0 .|. shiftMask, xK_backslash)
     , brightenScreen )
+  , ( (0, xF86XK_MonBrightnessUp)
+    , brightenScreen )
+
 
   , ( (myModMask, xK_slash)
     , lowerVolume )
