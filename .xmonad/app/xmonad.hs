@@ -143,7 +143,7 @@ myKeys conf = Map.fromList $
   , ( (0, xF86XK_MonBrightnessDown)
     , dimScreen )
 
-  , ( (0 .|. shiftMask, xK_backslash)
+  , ( (myModMask .|. shiftMask, xK_backslash)
     , brightenScreen )
   , ( (0, xF86XK_MonBrightnessUp)
     , brightenScreen )
@@ -186,6 +186,9 @@ myKeys conf = Map.fromList $
       "--dest=org.mpris.MediaPlayer2.spotify " ++
       "/org/mpris/MediaPlayer2 " ++
       "org.mpris.MediaPlayer2.Player.Pause" )
+
+  , ( (myModMask, xK_k)
+    , spawn "~/.xmonad/scripts/layout.sh" )
 
   ]
 
