@@ -34,14 +34,13 @@ noremap <PageDown> <nop>
 inoremap <PageUp> <nop>
 inoremap <PageDown> <nop>
 
+inoremap hl <ESC>
+inoremap lh <ESC>
+
 " Actually useful
 
 " Fast searching
 noremap <space> /
-
-" Home row ESC
-inoremap hu <Esc>
-inoremap uh <Esc>
 
 " Block comments
 noremap ` :call ToggleCommentCurrentLine()<CR>
