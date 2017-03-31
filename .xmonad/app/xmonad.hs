@@ -24,9 +24,11 @@ myFocusFollowsMouse  = False
 myModMask            = mod4Mask -- rebind mod to windows key
 myFocusedBorderColor = "#641588" -- purple
 myNormalBorderColor  = "#000000" -- black
-myTerminal           = "terminator"
+myTerminal           = "xterm -fn 7x13 "
+                       ++ "-fa "
+                       ++ "\"Liberation Mono:size=8:antialias=false\""
 startEmacs           = "emacs --daemon"
-browser              = "google-chrome-stable"
+browser              = "firefox"
 appSearch            = "dmenu_run" -- rebind mod to windows key
 music                = "spotify" -- code to skip songs relies on this
 editor               = "emacsclient -nc"
