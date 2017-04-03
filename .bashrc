@@ -22,6 +22,7 @@ alias umlet="java -jar /home/coleman/Classes/CSSE374SoftwareDesign/UMLet/umlet.j
 alias telegram="/home/coleman/SourceRepos/Telegram/Telegram"
 alias update="/home/coleman/Code/Workstation/copy-workstation.sh"
 alias homemonitor="sudo xrandr --output VGA1 --auto --right-of eDP1"
+alias c="clear && echo && ls"
 
 # my common typos
 alias please='sudo'
@@ -33,7 +34,7 @@ alias classes="cd ~/Classes/Current/"
 alias plc="cd ~/Classes/Current/plc/"
 alias codes="cd ~/Classes/Current/algebraic-codes/"
 alias theory="cd ~/Classes/Current/theory-of-comp/"
-alias data="cd ~/Classes/Current/advanced-databases/"
+alias databases="cd ~/Classes/Current/advanced-databases/"
 
 # configuring editor
 export EDITOR=vim
