@@ -24,9 +24,11 @@ myFocusFollowsMouse  = False
 myModMask            = mod4Mask -- rebind mod to windows key
 myFocusedBorderColor = "#641588" -- purple
 myNormalBorderColor  = "#000000" -- black
-myTerminal           = "xterm -fn 7x13 "
-                       ++ "-fa "
-                       ++ "\"Liberation Mono:size=8:antialias=false\""
+myTerminal           = "xterm -fn 7x13 " ++
+                       "-bg black " ++
+                       "-fg white " ++
+                       "-fa " ++
+                       "\"Liberation Mono:size=9:antialias=false\""
 startEmacs           = "emacs --daemon"
 browser              = "firefox"
 appSearch            = "dmenu_run" -- rebind mod to windows key
@@ -69,146 +71,154 @@ myManageHook = foldl mappend mempty
 
 myKeys conf = Map.fromList $
 
+  let lowerVolume    = spawn "amixer -q sset Master 5%-"
+      raiseVolume    = spawn "amixer -q sset Master 5%+"
+      dimScreen      = spawn "xbacklight -dec 5"
+      brightenScreen = spawn "xbacklight -inc 5"
+  in
+
   -- opening applications
-  [ ( (myModMask, xK_Return)
-    , spawn $ XMonad.terminal conf )
+    [ ( (myModMask, xK_Return)
+      , spawn $ XMonad.terminal conf )
 
-  , ( (myModMask, xK_e)
-    , spawn editor )
+    , ( (myModMask, xK_e)
+      , spawn editor )
 
-  , ( (myModMask .|. shiftMask, xK_e)
-    , spawn startEmacs )
+    , ( (myModMask .|. shiftMask, xK_e)
+      , spawn startEmacs )
 
-  , ( (myModMask, xK_w)
-    , spawn browser )
+    , ( (myModMask, xK_w)
+      , spawn browser )
 
-  , ( (myModMask, xK_s)
-    , spawn appSearch )
+    , ( (myModMask, xK_s)
+      , spawn appSearch )
 
-  , ( (myModMask, xK_m)
-    , spawn music )
+    , ( (myModMask, xK_m)
+      , spawn music )
 
-  , ( (myModMask, xK_f)
-    , spawn files )
+    , ( (myModMask, xK_f)
+      , spawn files )
 
-  ]
+    ]
 
-  ++
+    ++
 
-  -- window control
-  [ ( (myModMask, xK_period)
-    , sendMessage (IncMasterN 1) )
+    -- window control
+    [ ( (myModMask, xK_period)
+      , sendMessage (IncMasterN 1) )
 
-  , ( (myModMask, xK_comma)
-    , sendMessage (IncMasterN (-1)) )
+    , ( (myModMask, xK_comma)
+      , sendMessage (IncMasterN (-1)) )
 
-  , ( (myModMask, xK_h)
-    , sendMessage Shrink )
+    , ( (myModMask, xK_h)
+      , sendMessage Shrink )
 
-  , ( (myModMask, xK_l)
-    , sendMessage Expand )
+    , ( (myModMask, xK_l)
+      , sendMessage Expand )
 
-  , ( (myModMask, xK_space)
-    , sendMessage NextLayout )
+    , ( (myModMask, xK_space)
+      , sendMessage NextLayout )
 
-  , ( (myModMask, xK_n)
-    , windows SS.focusUp )
+    , ( (myModMask, xK_n)
+      , windows SS.focusDown )
 
-  , ( (myModMask, xK_b)
-    , windows SS.focusDown )
+    , ( (myModMask, xK_b)
+      , windows SS.focusUp )
 
-  -- , ( (myModMask, xK_o)
-  --   , otherScreen )
+    , ( (myModMask .|. shiftMask, xK_t)
+      , windows SS.swapUp )
 
-  ]
+    , ( (myModMask .|. shiftMask, xK_h)
+      , windows SS.swapDown )
 
-  ++
+    -- , ( (myModMask, xK_o)
+    --   , otherScreen )
 
-  -- XMonad control
-  [ ( (myModMask .|. shiftMask, xK_c)
-    , kill )
+    ]
 
-  , ( (myModMask, xK_q)
-    , do broadcastMessage ReleaseResources
-         restart "myxmonad" True )
+    ++
 
-  , ( (myModMask .|. shiftMask, xK_q)
-    , spawn "pkill myxmonad" )
+    -- XMonad control
+    [ ( (myModMask .|. shiftMask, xK_c)
+      , kill )
 
-  ]
+    , ( (myModMask, xK_q)
+      , do broadcastMessage ReleaseResources
+           restart "myxmonad" True )
 
-  ++
+    , ( (myModMask .|. shiftMask, xK_q)
+      , spawn "pkill myxmonad" )
 
-  -- OS control
-  [ ( (myModMask .|. shiftMask, xK_slash)
-    , dimScreen )
-  , ( (0, xF86XK_MonBrightnessDown)
-    , dimScreen )
+    ]
 
-  , ( (myModMask .|. shiftMask, xK_backslash)
-    , brightenScreen )
-  , ( (0, xF86XK_MonBrightnessUp)
-    , brightenScreen )
+    ++
 
-  , ( (myModMask, xK_slash)
-    , lowerVolume )
-  , ( (myModMask, xK_backslash)
-    , raiseVolume )
+    -- OS control
+    [ ( (myModMask .|. shiftMask, xK_slash)
+      , dimScreen )
+    , ( (0, xF86XK_MonBrightnessDown)
+      , dimScreen )
 
-  , ( (0, xF86XK_AudioLowerVolume)
-    , lowerVolume )
-  , ( (0, xF86XK_AudioRaiseVolume)
-    , raiseVolume )
+    , ( (myModMask .|. shiftMask, xK_backslash)
+      , brightenScreen )
+    , ( (0, xF86XK_MonBrightnessUp)
+      , brightenScreen )
 
-  -- used command from https://ubuntuforums.org/showthread.php?t=1797848
-  , ( (0, xF86XK_AudioNext)
-    , spawn $
-      "dbus-send --print-reply " ++
-      "--dest=org.mpris.MediaPlayer2.spotify " ++
-      "/org/mpris/MediaPlayer2 " ++
-      "org.mpris.MediaPlayer2.Player.Next" )
+    , ( (myModMask, xK_slash)
+      , lowerVolume )
+    , ( (myModMask, xK_backslash)
+      , raiseVolume )
 
-  , ( (0, xF86XK_AudioPrev)
-    , spawn $
-      "dbus-send --print-reply " ++
-      "--dest=org.mpris.MediaPlayer2.spotify " ++
-      "/org/mpris/MediaPlayer2 " ++
-      "org.mpris.MediaPlayer2.Player.Previous" )
+    , ( (0, xF86XK_AudioLowerVolume)
+      , lowerVolume )
+    , ( (0, xF86XK_AudioRaiseVolume)
+      , raiseVolume )
 
-  , ( (0, xF86XK_AudioPlay)
-    , spawn $
-      "dbus-send --print-reply " ++
-      "--dest=org.mpris.MediaPlayer2.spotify " ++
-      "/org/mpris/MediaPlayer2 " ++
-      "org.mpris.MediaPlayer2.Player.Play" )
+    -- used command from https://ubuntuforums.org/showthread.php?t=1797848
+    , ( (0, xF86XK_AudioNext)
+      , spawn $
+        "dbus-send --print-reply " ++
+        "--dest=org.mpris.MediaPlayer2.spotify " ++
+        "/org/mpris/MediaPlayer2 " ++
+        "org.mpris.MediaPlayer2.Player.Next" )
 
-  , ( (myModMask, xF86XK_AudioPlay)
-    , spawn $
-      "dbus-send --print-reply " ++
-      "--dest=org.mpris.MediaPlayer2.spotify " ++
-      "/org/mpris/MediaPlayer2 " ++
-      "org.mpris.MediaPlayer2.Player.Pause" )
+    , ( (0, xF86XK_AudioPrev)
+      , spawn $
+        "dbus-send --print-reply " ++
+        "--dest=org.mpris.MediaPlayer2.spotify " ++
+        "/org/mpris/MediaPlayer2 " ++
+        "org.mpris.MediaPlayer2.Player.Previous" )
 
-  , ( (myModMask, xK_k)
-    , spawn "~/.xmonad/scripts/layout.sh" )
+    , ( (0, xF86XK_AudioPlay)
+      , spawn $
+        "dbus-send --print-reply " ++
+        "--dest=org.mpris.MediaPlayer2.spotify " ++
+        "/org/mpris/MediaPlayer2 " ++
+        "org.mpris.MediaPlayer2.Player.Play" )
 
-  ]
+    , ( (myModMask, xF86XK_AudioPlay)
+      , spawn $
+        "dbus-send --print-reply " ++
+        "--dest=org.mpris.MediaPlayer2.spotify " ++
+        "/org/mpris/MediaPlayer2 " ++
+        "org.mpris.MediaPlayer2.Player.Pause" )
+
+    , ( (myModMask, xK_k)
+      , spawn "~/.xmonad/scripts/layout.sh" )
+
+    ]
 
   ++
 
   -- keybindings for workspaces
-  [ ( (mask .|. myModMask, key)
-    , windows $ func workspace)
-  | (workspace, key) <- zip myWorkspaces numPadKeys
-  , (func, mask)     <- [ (SS.view, 0)
-                        , (SS.shift, shiftMask)
-                        ]
-  ]
+    [ ( (mask .|. myModMask, key)
+      , windows $ func workspace)
+    | (workspace, key) <- zip myWorkspaces numPadKeys
+    , (func, mask)     <- [ (SS.view, 0)
+                          , (SS.shift, shiftMask)
+                          ]
+    ]
 
-  where lowerVolume    = spawn "amixer -q sset Master 5%-"
-        raiseVolume    = spawn "amixer -q sset Master 5%+"
-        dimScreen      = spawn "xbacklight -dec 5"
-        brightenScreen = spawn "xbacklight -inc 5"
 
 
 numPadKeys = [ xK_KP_End    ,xK_KP_Down , xK_KP_Page_Down -- 1, 2, 3
