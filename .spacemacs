@@ -62,6 +62,8 @@ values."
      extra-langs
      python
      yaml
+     graphviz
+     react
      )
 
    ;; List of additional packages that will be installed without being
@@ -319,6 +321,8 @@ you should place your code here."
   (setq scroll-step 1)
   (scroll-bar-mode -1)
   (setq global-evil-search-highlight-persist nil)
+  (setq evil-ex-search-persistent-highlight nil)
+
   (setq flycheck-display-errors-delay 1)
   (setq flycheck-display-error-at-point-timer 1)
   (setq flycheck-pos-tip-timeout 30)
@@ -448,7 +452,7 @@ This function is called at the very end of Spacemacs initialization."
  '(inhibit-startup-screen t)
  '(package-selected-packages
    (quote
-    (yaml-mode toml-mode racer flycheck-rust cargo rust-mode noflet ensime sbt-mode scala-mode yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode helm-pydoc cython-mode company-anaconda anaconda-mode pythonic wolfram-mode thrift stan-mode scad-mode qml-mode matlab-mode julia-mode arduino-mode clojure-snippets clj-refactor inflections edn paredit peg cider-eval-sexp-fu cider queue clojure-mode ob-elixir flycheck-mix alchemist elixir-mode lua-mode zonokai-theme zenburn-theme zen-and-art-theme underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme tronesque-theme toxi-theme tao-theme sunny-day-theme sublime-themes subatomic256-theme subatomic-theme sql-indent spacegray-theme sourcerer-theme soothe-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme seti-theme reverse-theme railscasts-theme purple-haze-theme professional-theme planet-theme phoenix-dark-pink-theme phoenix-dark-mono-theme pastels-on-dark-theme organic-green-theme omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme noctilux-theme niflheim-theme naquadah-theme mustang-theme monokai-theme monochrome-theme molokai-theme moe-theme minimal-theme material-theme majapahit-theme lush-theme light-soap-theme jbeans-theme jazz-theme ir-black-theme inkpot-theme heroku-theme hemisu-theme hc-zenburn-theme gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme gandalf-theme flycheck-elm flatui-theme flatland-theme firebelly-theme farmhouse-theme espresso-theme elm-mode dracula-theme django-theme darktooth-theme autothemer darkokai-theme darkmine-theme darkburn-theme dakrone-theme cyberpunk-theme color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clues-theme cherry-blossom-theme busybee-theme bubbleberry-theme birds-of-paradise-plus-theme apropospriate-theme anti-zenburn-theme ample-zen-theme alect-themes afternoon-theme quack scheme-complete web-mode powerline-evil evil-snipe badwolf-theme markdown-preview-eww markdown-mode+ markdown-mode elpy airline-themes ample-theme colonoscopy-theme foggy-night-theme flycheck evil-escape evil-magit metalheart-theme magit tango-2-theme tango-plus-theme tangotango-theme tide key-chord git evil)))
+    (solarized-theme madhat2r-theme fuzzy flycheck-credo graphviz-dot-mode yaml-mode toml-mode racer flycheck-rust cargo rust-mode noflet ensime sbt-mode scala-mode yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode helm-pydoc cython-mode company-anaconda anaconda-mode pythonic wolfram-mode thrift stan-mode scad-mode qml-mode matlab-mode julia-mode arduino-mode clojure-snippets clj-refactor inflections edn paredit peg cider-eval-sexp-fu cider queue clojure-mode ob-elixir flycheck-mix alchemist elixir-mode lua-mode zonokai-theme zenburn-theme zen-and-art-theme underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme tronesque-theme toxi-theme tao-theme sunny-day-theme sublime-themes subatomic256-theme subatomic-theme sql-indent spacegray-theme sourcerer-theme soothe-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme seti-theme reverse-theme railscasts-theme purple-haze-theme professional-theme planet-theme phoenix-dark-pink-theme phoenix-dark-mono-theme pastels-on-dark-theme organic-green-theme omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme noctilux-theme niflheim-theme naquadah-theme mustang-theme monokai-theme monochrome-theme molokai-theme moe-theme minimal-theme material-theme majapahit-theme lush-theme light-soap-theme jbeans-theme jazz-theme ir-black-theme inkpot-theme heroku-theme hemisu-theme hc-zenburn-theme gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme gandalf-theme flycheck-elm flatui-theme flatland-theme firebelly-theme farmhouse-theme espresso-theme elm-mode dracula-theme django-theme darktooth-theme autothemer darkokai-theme darkmine-theme darkburn-theme dakrone-theme cyberpunk-theme color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clues-theme cherry-blossom-theme busybee-theme bubbleberry-theme birds-of-paradise-plus-theme apropospriate-theme anti-zenburn-theme ample-zen-theme alect-themes afternoon-theme quack scheme-complete web-mode powerline-evil evil-snipe badwolf-theme markdown-preview-eww markdown-mode+ markdown-mode elpy airline-themes ample-theme colonoscopy-theme foggy-night-theme flycheck evil-escape evil-magit metalheart-theme magit tango-2-theme tango-plus-theme tangotango-theme tide key-chord git evil)))
  '(py-force-py-shell-name-p t)
  '(py-shell-name "python2")
  '(show-paren-mode t))
