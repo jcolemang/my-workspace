@@ -19,7 +19,6 @@ PS1='\n$(date +"%a, %r") | \w \n λ '
 alias em="emacsclient -nc"
 alias killemacs="emacsclient -e \"(kill-emacs)\""
 alias umlet="java -jar /home/coleman/Classes/CSSE374SoftwareDesign/UMLet/umlet.jar"
-alias telegram="/home/coleman/SourceRepos/Telegram/Telegram"
 alias update="/home/coleman/Code/Workstation/copy-workstation.sh"
 alias homemonitor="sudo xrandr --output VGA1 --auto --right-of eDP1"
 alias c="clear && echo && ls"
