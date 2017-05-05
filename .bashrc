@@ -1,7 +1,6 @@
 #
 # ~/.bashrc
 #
-
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
@@ -14,6 +13,7 @@ PS1='\n$(date +"%a, %r") | \w \n λ '
 
 
 # my stuff
+bind -x '"\C-l": clear && echo && ls'
 
 # aliases
 alias em="emacsclient -nc"
@@ -21,6 +21,9 @@ alias killemacs="emacsclient -e \"(kill-emacs)\""
 alias umlet="java -jar /home/coleman/Classes/CSSE374SoftwareDesign/UMLet/umlet.jar"
 alias update="/home/coleman/Code/Workstation/copy-workstation.sh"
 alias homemonitor="sudo xrandr --output VGA1 --auto --right-of eDP1"
+alias runmagma="/home/coleman/SourceRepos/magma/magma"
+alias asdf="bash /home/coleman/.set-keyboard-layout.sh"
+
 alias c="clear && echo && ls"
 
 # my common typos

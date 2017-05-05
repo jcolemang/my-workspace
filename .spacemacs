@@ -64,17 +64,20 @@ values."
      yaml
      graphviz
      react
+     vimscript
      )
 
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '(doom-themes)
+   dotspacemacs-additional-packages '(doom-themes
+                                      magma-mode)
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
-   dotspacemacs-excluded-packages '(smartparens evil-search-highlight-persist)
+   dotspacemacs-excluded-packages '(smartparens
+                                    evil-search-highlight-persist)
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
    ;; `used-only' installs only explicitly used packages and uninstall any
@@ -136,7 +139,8 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(doom-molokai
+   dotspacemacs-themes '(smyx
+                         doom-molokai
                          cyberpunk
                          tangotango
                          spacemacs-dark
@@ -320,12 +324,16 @@ you should place your code here."
   (setq scroll-conservatively most-positive-fixnum)
   (setq scroll-step 1)
   (scroll-bar-mode -1)
+  (setq tab-always-indent t)
+
+  ;; And yet somehow it still turns on
   (setq global-evil-search-highlight-persist nil)
-  (setq evil-ex-search-persistent-highlight nil)
+  (setq evil-search-highlight-string-min-len 5000000)
+  ;; (setq-default evil-ex-search-persistent-highlight nil)
 
   (setq flycheck-display-errors-delay 1)
   (setq flycheck-display-error-at-point-timer 1)
-  (setq flycheck-pos-tip-timeout 30)
+  (setq flycheck-pos-tip-timeout 60)
   (global-column-enforce-mode)
   (display-battery-mode)
   (global-prettify-symbols-mode 1)
@@ -351,6 +359,8 @@ you should place your code here."
   (define-key evil-visual-state-map (kbd "k") 'evil-previous-visual-line)
   (define-key evil-normal-state-map (kbd "f") 'evil-snipe-f)
   (define-key evil-normal-state-map (kbd "F") 'evil-snipe-F)
+  (define-key evil-normal-state-map (kbd "<escape>")
+    'spacemacs/evil-search-clear-highlight)
 
   (setq evil-escape-key-sequence "hl")
   (setq evil-escape-unordered-key-sequence 1)
@@ -401,10 +411,19 @@ you should place your code here."
   ;; python
   (setq python-shell-completion-native-enable nil)
 
+  ;; react
+  (defun my-react-hook ()
+    "React hook"
+    (auto-complete-mode))
+  (add-hook 'react-mode-hook 'my-react-hook)
+
   ;; haskell
 
   ;; Prolog
   (add-to-list 'auto-mode-alist '("\\.\\(pl\\|pro\\|lgt\\)" . prolog-mode))
+
+  ;; Magma
+  (add-to-list 'auto-mode-alist '("\\.\\(magma\\)" . magma-mode))
 
   )
 
@@ -447,12 +466,12 @@ This function is called at the very end of Spacemacs initialization."
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    (quote
-    ("0c29db826418061b40564e3351194a3d4a125d182c6ee5178c237a7364f0ff12" "8453c6ba2504874309bdfcda0a69236814cefb860a528eb978b5489422cb1791" "945fe66fbc30a7cbe0ed3e970195a7ee79ee34f49a86bc96d02662ab449b8134" "38e64ea9b3a5e512ae9547063ee491c20bd717fe59d9c12219a0b1050b439cdd" "f782ed87369a7d568cee28d14922aa6d639f49dd676124d817dd82c8208985d0" "066d4710e40eeb85aa7c72afa6c23d09dee4795bf4e450d4869324e917b5f64d" "f9574c9ede3f64d57b3aa9b9cef621d54e2e503f4d75d8613cbcc4ca1c962c21" "70f5a47eb08fe7a4ccb88e2550d377ce085fedce81cf30c56e3077f95a2909f2" "1012cf33e0152751078e9529a915da52ec742dabf22143530e86451ae8378c1a" "b825687675ea2644d1c017f246077cdd725d4326a1c11d84871308573d019f67" "f0d8af755039aa25cd0792ace9002ba885fd14ac8e8807388ab00ec84c9497d7" "86a731bda96ed5ed69980b4cbafe45614ec3c288da3b773e4585101e7ece40d2" "e87a2bd5abc8448f8676365692e908b709b93f2d3869c42a4371223aab7d9cf8" "4f5bb895d88b6fe6a983e63429f154b8d939b4a8c581956493783b2515e22d6d" "fbcdb6b7890d0ec1708fa21ab08eb0cc16a8b7611bb6517b722eba3891dfc9dd" "e8586a76a96fd322ccb644ca0c3a1e4f4ca071ccfdb0f19bef90c4040d5d3841" "304c03c9cfcd368b4ab0832357788cd48513fe1bd89b9e531dd47886a83405a1" "ac5584b12254623419499c3a7a5388031a29be85a15fdef9b94df2292d3e2cbb" "d606ac41cdd7054841941455c0151c54f8bff7e4e050255dbd4ae4d60ab640c1" "cadc97db0173a0d0bfc40473cab4da462af0ba8d60befd0a4879b582bcbc092d" "9e147cee63e1a2a6b16021e0645bc66c633c42b849e78b8e295df4b7fe55c56a" "9cb6358979981949d1ae9da907a5d38fb6cde1776e8956a1db150925f2dad6c1" "5999e12c8070b9090a2a1bbcd02ec28906e150bb2cdce5ace4f965c76cf30476" "8abee8a14e028101f90a2d314f1b03bed1cde7fd3f1eb945ada6ffc15b1d7d65" default)))
+    ("8288b9b453cdd2398339a9fd0cec94105bc5ca79b86695bd7bf0381b1fbe8147" "58c6711a3b568437bab07a30385d34aacf64156cc5137ea20e799984f4227265" "66132890ee1f884b4f8e901f0c61c5ed078809626a547dbefbb201f900d03fd8" "0c29db826418061b40564e3351194a3d4a125d182c6ee5178c237a7364f0ff12" "8453c6ba2504874309bdfcda0a69236814cefb860a528eb978b5489422cb1791" "945fe66fbc30a7cbe0ed3e970195a7ee79ee34f49a86bc96d02662ab449b8134" "38e64ea9b3a5e512ae9547063ee491c20bd717fe59d9c12219a0b1050b439cdd" "f782ed87369a7d568cee28d14922aa6d639f49dd676124d817dd82c8208985d0" "066d4710e40eeb85aa7c72afa6c23d09dee4795bf4e450d4869324e917b5f64d" "f9574c9ede3f64d57b3aa9b9cef621d54e2e503f4d75d8613cbcc4ca1c962c21" "70f5a47eb08fe7a4ccb88e2550d377ce085fedce81cf30c56e3077f95a2909f2" "1012cf33e0152751078e9529a915da52ec742dabf22143530e86451ae8378c1a" "b825687675ea2644d1c017f246077cdd725d4326a1c11d84871308573d019f67" "f0d8af755039aa25cd0792ace9002ba885fd14ac8e8807388ab00ec84c9497d7" "86a731bda96ed5ed69980b4cbafe45614ec3c288da3b773e4585101e7ece40d2" "e87a2bd5abc8448f8676365692e908b709b93f2d3869c42a4371223aab7d9cf8" "4f5bb895d88b6fe6a983e63429f154b8d939b4a8c581956493783b2515e22d6d" "fbcdb6b7890d0ec1708fa21ab08eb0cc16a8b7611bb6517b722eba3891dfc9dd" "e8586a76a96fd322ccb644ca0c3a1e4f4ca071ccfdb0f19bef90c4040d5d3841" "304c03c9cfcd368b4ab0832357788cd48513fe1bd89b9e531dd47886a83405a1" "ac5584b12254623419499c3a7a5388031a29be85a15fdef9b94df2292d3e2cbb" "d606ac41cdd7054841941455c0151c54f8bff7e4e050255dbd4ae4d60ab640c1" "cadc97db0173a0d0bfc40473cab4da462af0ba8d60befd0a4879b582bcbc092d" "9e147cee63e1a2a6b16021e0645bc66c633c42b849e78b8e295df4b7fe55c56a" "9cb6358979981949d1ae9da907a5d38fb6cde1776e8956a1db150925f2dad6c1" "5999e12c8070b9090a2a1bbcd02ec28906e150bb2cdce5ace4f965c76cf30476" "8abee8a14e028101f90a2d314f1b03bed1cde7fd3f1eb945ada6ffc15b1d7d65" default)))
  '(evil-want-Y-yank-to-eol nil)
  '(inhibit-startup-screen t)
  '(package-selected-packages
    (quote
-    (solarized-theme madhat2r-theme fuzzy flycheck-credo graphviz-dot-mode yaml-mode toml-mode racer flycheck-rust cargo rust-mode noflet ensime sbt-mode scala-mode yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode helm-pydoc cython-mode company-anaconda anaconda-mode pythonic wolfram-mode thrift stan-mode scad-mode qml-mode matlab-mode julia-mode arduino-mode clojure-snippets clj-refactor inflections edn paredit peg cider-eval-sexp-fu cider queue clojure-mode ob-elixir flycheck-mix alchemist elixir-mode lua-mode zonokai-theme zenburn-theme zen-and-art-theme underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme tronesque-theme toxi-theme tao-theme sunny-day-theme sublime-themes subatomic256-theme subatomic-theme sql-indent spacegray-theme sourcerer-theme soothe-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme seti-theme reverse-theme railscasts-theme purple-haze-theme professional-theme planet-theme phoenix-dark-pink-theme phoenix-dark-mono-theme pastels-on-dark-theme organic-green-theme omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme noctilux-theme niflheim-theme naquadah-theme mustang-theme monokai-theme monochrome-theme molokai-theme moe-theme minimal-theme material-theme majapahit-theme lush-theme light-soap-theme jbeans-theme jazz-theme ir-black-theme inkpot-theme heroku-theme hemisu-theme hc-zenburn-theme gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme gandalf-theme flycheck-elm flatui-theme flatland-theme firebelly-theme farmhouse-theme espresso-theme elm-mode dracula-theme django-theme darktooth-theme autothemer darkokai-theme darkmine-theme darkburn-theme dakrone-theme cyberpunk-theme color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clues-theme cherry-blossom-theme busybee-theme bubbleberry-theme birds-of-paradise-plus-theme apropospriate-theme anti-zenburn-theme ample-zen-theme alect-themes afternoon-theme quack scheme-complete web-mode powerline-evil evil-snipe badwolf-theme markdown-preview-eww markdown-mode+ markdown-mode elpy airline-themes ample-theme colonoscopy-theme foggy-night-theme flycheck evil-escape evil-magit metalheart-theme magit tango-2-theme tango-plus-theme tangotango-theme tide key-chord git evil)))
+    (magma-mode winum which-key use-package toc-org restart-emacs persp-mode org-plus-contrib org-download neotree move-text mmm-mode markdown-toc link-hint json-mode js2-refactor intero info+ indent-guide hungry-delete highlight-indentation hide-comnt help-fns+ helm-projectile helm-make helm-gitignore helm-flx helm-company helm-ag git-timemachine git-link geiser eyebrowse expand-region exec-path-from-shell evil-nerd-commenter evil-mc evil-ediff dumb-jump doom-themes all-the-icons font-lock+ diminish company-statistics coffee-mode multiple-cursors aggressive-indent ace-window ace-link avy packed auctex company smartparens highlight flyspell-correct haskell-mode yasnippet helm helm-core alert log4e projectile magit-popup git-commit with-editor async hydra f haml-mode js2-mode dash imenu-list evil-search-highlight-persist jedi flycheck-mypy vimrc-mode dactyl-mode solarized-theme madhat2r-theme fuzzy flycheck-credo graphviz-dot-mode yaml-mode toml-mode racer flycheck-rust cargo rust-mode noflet ensime sbt-mode scala-mode yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode helm-pydoc cython-mode company-anaconda anaconda-mode pythonic wolfram-mode thrift stan-mode scad-mode qml-mode matlab-mode julia-mode arduino-mode clojure-snippets clj-refactor inflections edn paredit peg cider-eval-sexp-fu cider queue clojure-mode ob-elixir flycheck-mix alchemist elixir-mode lua-mode zonokai-theme zenburn-theme zen-and-art-theme underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme tronesque-theme toxi-theme tao-theme sunny-day-theme sublime-themes subatomic256-theme subatomic-theme sql-indent spacegray-theme sourcerer-theme soothe-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme seti-theme reverse-theme railscasts-theme purple-haze-theme professional-theme planet-theme phoenix-dark-pink-theme phoenix-dark-mono-theme pastels-on-dark-theme organic-green-theme omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme noctilux-theme niflheim-theme naquadah-theme mustang-theme monokai-theme monochrome-theme molokai-theme moe-theme minimal-theme material-theme majapahit-theme lush-theme light-soap-theme jbeans-theme jazz-theme ir-black-theme inkpot-theme heroku-theme hemisu-theme hc-zenburn-theme gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme gandalf-theme flycheck-elm flatui-theme flatland-theme firebelly-theme farmhouse-theme espresso-theme elm-mode dracula-theme django-theme darktooth-theme autothemer darkokai-theme darkmine-theme darkburn-theme dakrone-theme cyberpunk-theme color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clues-theme cherry-blossom-theme busybee-theme bubbleberry-theme birds-of-paradise-plus-theme apropospriate-theme anti-zenburn-theme ample-zen-theme alect-themes afternoon-theme quack scheme-complete web-mode powerline-evil evil-snipe badwolf-theme markdown-preview-eww markdown-mode+ markdown-mode elpy airline-themes ample-theme colonoscopy-theme foggy-night-theme flycheck evil-escape evil-magit metalheart-theme magit tango-2-theme tango-plus-theme tangotango-theme tide key-chord git evil)))
  '(py-force-py-shell-name-p t)
  '(py-shell-name "python2")
  '(show-paren-mode t))

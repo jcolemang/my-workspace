@@ -9,6 +9,7 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'bling/vim-airline'
 Plugin 'flazz/vim-colorschemes'
+Plugin 'ghcmod-vim'
 
 call vundle#end()
 filetype plugin indent on
@@ -16,7 +17,6 @@ filetype plugin indent on
 " airline
 let g:airline#extensions#tabline#enabled = 1
 set t_Co=256
-
 
 
 " ~~~~~ KEY MAPPINGS ~~~~~
@@ -41,9 +41,6 @@ inoremap lh <ESC>
 
 " Fast searching
 noremap <space> /
-
-" Block comments
-noremap ` :call ToggleCommentCurrentLine()<CR>
 
 " Fast scrolling
 noremap J 5j
@@ -75,6 +72,7 @@ retab
 colorscheme Tomorrow-Night-Eighties
 syntax on
 let html_no_rendering=1
+set visualbell
 
 
 " ~~~~~ BACKUP SETTINGS ~~~~~

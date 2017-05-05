@@ -1,8 +1,5 @@
 #!/bin/sh
 
-setxkbmap -layout us -variant dvp
-xset r rate 130 30
-setxkbmap -option caps:backspace
-xmodmap -e "clear Lock"
-
+bash .set-keyboard-layout.sh
+numlockx
 exec myxmonad
