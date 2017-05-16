@@ -30,7 +30,7 @@ myTerminal           = "xterm -fn 7x13 " ++
                        "-fa " ++
                        "\"Liberation Mono:size=9:antialias=false\""
 startEmacs           = "emacs --daemon"
-browser              = "firefox"
+browser              = "opera"
 appSearch            = "dmenu_run" -- rebind mod to windows key
 music                = "spotify" -- code to skip songs relies on this
 editor               = "emacsclient -nc"
@@ -38,9 +38,9 @@ files                = "nautilus"
 
 
 -- script to set things like keyboard config
-myStartupHook = do
-  setWMName "LG3D"
-  spawn "~/.xmonad/scripts/startup.sh"
+-- myStartupHook = do
+--   setWMName "LG3D"
+--   spawn "~/.xmonad/scripts/startup.sh"
 
 
 
