@@ -65,6 +65,7 @@ values."
      graphviz
      react
      vimscript
+     ocaml
      )
 
    ;; List of additional packages that will be installed without being
@@ -325,6 +326,10 @@ you should place your code here."
   (setq scroll-step 1)
   (scroll-bar-mode -1)
   (setq tab-always-indent t)
+  (define-key evil-insert-state-map (kbd "C-j") 'evil-next-visual-line)
+  (define-key evil-insert-state-map (kbd "C-k") 'evil-previous-visual-line)
+  (define-key evil-insert-state-map (kbd "C-h") 'evil-backward-char)
+  (define-key evil-insert-state-map (kbd "C-l") 'evil-forward-char)
 
   ;; And yet somehow it still turns on
   (setq global-evil-search-highlight-persist nil)

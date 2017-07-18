@@ -3,7 +3,6 @@
 import qualified Data.Map                     as Map
 import           Graphics.X11.ExtraTypes.XF86
 import           XMonad
-import           XMonad.Hooks.SetWMName
 import qualified XMonad.StackSet              as SS
 
 
@@ -21,7 +20,7 @@ import qualified XMonad.StackSet              as SS
 
 -- basic configuration variables
 myFocusFollowsMouse  = False
-myModMask            = mod4Mask -- rebind mod to windows key
+myModMask            = mod4Mask  -- rebind mod to windows key
 myFocusedBorderColor = "#641588" -- purple
 myNormalBorderColor  = "#000000" -- black
 myTerminal           = "xterm -fn 7x13 " ++
@@ -30,9 +29,9 @@ myTerminal           = "xterm -fn 7x13 " ++
                        "-fa " ++
                        "\"Liberation Mono:size=9:antialias=false\""
 startEmacs           = "emacs --daemon"
-browser              = "opera"
+browser              = "firefox"
 appSearch            = "dmenu_run" -- rebind mod to windows key
-music                = "spotify" -- code to skip songs relies on this
+music                = "spotify"   -- code to skip songs relies on this
 editor               = "emacsclient -nc"
 files                = "nautilus"
 
