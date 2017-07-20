@@ -7,7 +7,6 @@ import qualified XMonad.StackSet              as SS
 
 
 -- ~~~~~ Helper Functions ~~~~~
-
 -- getNextWrap :: [a] -> Maybe a
 -- getNextWrap [] = Nothing
 -- getNextWrap [x] = Just x
@@ -34,6 +33,8 @@ appSearch            = "dmenu_run" -- rebind mod to windows key
 music                = "spotify"   -- code to skip songs relies on this
 editor               = "emacsclient -nc"
 files                = "nautilus"
+setMyBackground        = "feh --bg-scale ~/Code/Workstation/background.png"
+
 
 
 -- script to set things like keyboard config
@@ -130,9 +131,6 @@ myKeys conf = Map.fromList $
     , ( (myModMask .|. shiftMask, xK_h)
       , windows SS.swapDown )
 
-    -- , ( (myModMask, xK_o)
-    --   , otherScreen )
-
     ]
 
     ++
@@ -228,10 +226,10 @@ numPadKeys = [ xK_KP_End    ,xK_KP_Down , xK_KP_Page_Down -- 1, 2, 3
 
 
 main :: IO ()
-main = launch def
+main = spawn setMyBackground >>
+  launch def
   { terminal           = myTerminal
   , focusFollowsMouse  = myFocusFollowsMouse
-  , startupHook        = myStartupHook
   , modMask            = myModMask
   , workspaces         = myWorkspaces
   , manageHook         = myManageHook

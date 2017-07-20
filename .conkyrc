@@ -1,0 +1,17 @@
+
+conky.config = {
+  alignment = 'top_left',
+  background = false,
+  update_interval = 5.0
+}
+
+conky.text = [[
+  ${time %c}
+
+  $battery_percent %
+
+  ${color grey}RAM --> $color $mem/$memmax - $memperc% ${membar 4}
+
+  Usage:$color $cpu%
+  ${cpugraph 000000 ffffff}
+  ]]
