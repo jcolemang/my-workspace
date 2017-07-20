@@ -6,7 +6,6 @@
 
 
 force_color_prompt=yes
-echo -e "\e[3mitalic\e[0m"
 
 GREEN="$(tput setaf 2)"
 YELLOW="$(tput setaf 3)"

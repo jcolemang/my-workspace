@@ -1,5 +1,5 @@
 
-echo "Running keyboard script from xmonad"
+# echo "Running keyboard script from xmonad"
 
 # faster keyboard repeat rate and smaller delay
 # setxkbmap -layout us -variant dvp

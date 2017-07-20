@@ -32,20 +32,13 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
-     ;; ----------------------------------------------------------------
-     ;; Example of useful layers you may want to use right away.
-     ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
-     ;; <M-m f e R> (Emacs style) to install them.
-     ;; ----------------------------------------------------------------
+     lua
      helm
      auto-completion
      emacs-lisp
      git
      markdown
      org
-     ;; (shell :variables
-     ;;        shell-default-height 30
-     ;;        shell-default-position 'bottom)
      spell-checking
      syntax-checking
      evil-snipe
@@ -57,14 +50,12 @@ values."
      haskell
      themes-megapack
      elm
-     elixir
      clojure
      extra-langs
      python
      yaml
-     graphviz
-     react
      vimscript
+     ocaml
      )
 
    ;; List of additional packages that will be installed without being
@@ -325,6 +316,10 @@ you should place your code here."
   (setq scroll-step 1)
   (scroll-bar-mode -1)
   (setq tab-always-indent t)
+  (define-key evil-insert-state-map (kbd "C-j") 'evil-next-visual-line)
+  (define-key evil-insert-state-map (kbd "C-k") 'evil-previous-visual-line)
+  (define-key evil-insert-state-map (kbd "C-h") 'evil-backward-char)
+  (define-key evil-insert-state-map (kbd "C-l") 'evil-forward-char)
 
   ;; And yet somehow it still turns on
   (setq global-evil-search-highlight-persist nil)
