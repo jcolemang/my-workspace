@@ -6,15 +6,6 @@ import           XMonad
 import qualified XMonad.StackSet              as SS
 
 
--- ~~~~~ Helper Functions ~~~~~
--- getNextWrap :: [a] -> Maybe a
--- getNextWrap [] = Nothing
--- getNextWrap [x] = Just x
--- getNextWrap (_:x:_) = Just x
-
-
--- otherScreen = SS.screens
-
 -- ~~~~~ My Configuration ~~~~~
 
 -- basic configuration variables
@@ -33,15 +24,8 @@ appSearch            = "dmenu_run" -- rebind mod to windows key
 music                = "spotify"   -- code to skip songs relies on this
 editor               = "emacsclient -nc"
 files                = "nautilus"
-setMyBackground        = "feh --bg-scale ~/Code/Workstation/background.png"
-
-
-
--- script to set things like keyboard config
--- myStartupHook = do
---   setWMName "LG3D"
---   spawn "~/.xmonad/scripts/startup.sh"
-
+setMyBackground      = "feh --bg-scale ~/Code/Workstation/background.png"
+startConky           = "conky"
 
 
 -- workspace names
@@ -217,7 +201,6 @@ myKeys conf = Map.fromList $
     ]
 
 
-
 numPadKeys = [ xK_KP_End    ,xK_KP_Down , xK_KP_Page_Down -- 1, 2, 3
              , xK_KP_Left   ,xK_KP_Begin, xK_KP_Right     -- 4, 5, 6
              , xK_KP_Home   ,xK_KP_Up   , xK_KP_Page_Up   -- 7, 8, 9
@@ -225,8 +208,11 @@ numPadKeys = [ xK_KP_End    ,xK_KP_Down , xK_KP_Page_Down -- 1, 2, 3
              ]
 
 
+myStartupHook = spawn setMyBackground >> spawn startConky
+
+
 main :: IO ()
-main = spawn setMyBackground >>
+main =
   launch def
   { terminal           = myTerminal
   , focusFollowsMouse  = myFocusFollowsMouse
@@ -236,4 +222,5 @@ main = spawn setMyBackground >>
   , keys               = myKeys
   , normalBorderColor  = myNormalBorderColor
   , focusedBorderColor = myFocusedBorderColor
+  , startupHook        = myStartupHook
   }

@@ -3,6 +3,13 @@ version:             0.1.0.0
 homepage:            https://github.com/jcolemang/my-workspace#README.md
 author:              James Coleman Gibson
 cabal-version:       >=1.10
+build-type:          Custom
+
+
+custom-setup
+  setup-depends:
+                base
+              , Cabal
 
 
 executable get-pull-requests
