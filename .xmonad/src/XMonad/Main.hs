@@ -13,11 +13,7 @@ myFocusFollowsMouse  = False
 myModMask            = mod4Mask  -- rebind mod to windows key
 myFocusedBorderColor = "#641588" -- purple
 myNormalBorderColor  = "#000000" -- black
-myTerminal           = "xterm -fn 7x13 " ++
-                       "-bg black " ++
-                       "-fg white " ++
-                       "-fa " ++
-                       "\"Liberation Mono:size=9:antialias=false\""
+myTerminal           = "termite"
 startEmacs           = "emacs --daemon"
 browser              = "firefox"
 appSearch            = "dmenu_run" -- rebind mod to windows key
@@ -26,6 +22,7 @@ editor               = "emacsclient -nc"
 files                = "nautilus"
 setMyBackground      = "feh --bg-scale ~/Code/Workstation/background.png"
 startConky           = "conky"
+screenshot           = "gnome-screenshot"
 
 
 -- workspace names
@@ -82,6 +79,9 @@ myKeys conf = Map.fromList $
 
     , ( (myModMask, xK_f)
       , spawn files )
+
+    , ( (0, xK_Print)
+      , spawn screenshot )
 
     ]
 
@@ -208,7 +208,11 @@ numPadKeys = [ xK_KP_End    ,xK_KP_Down , xK_KP_Page_Down -- 1, 2, 3
              ]
 
 
-myStartupHook = spawn setMyBackground >> spawn startConky
+myStartupHook = do
+  spawn setMyBackground
+  spawn startConky
+  spawn "compton"
+  spawn startEmacs
 
 
 main :: IO ()

@@ -22,6 +22,8 @@ executable get-pull-requests
                      , aeson
                      , bytestring
                      , containers
+                     , transformers
+                     , mtl
   default-language:    Haskell2010
 
 
