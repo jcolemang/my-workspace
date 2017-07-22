@@ -1,12 +1,25 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-import Network.Wreq
-import Data.Aeson
-import Control.Lens
-import Data.ByteString
-import Control.Monad
-import Control.Monad.Trans
-import Control.Monad.Trans.Maybe
+import Network.Wreq ( get
+                    , responseBody )
+import System.Environment ( getArgs )
+import Data.Aeson ( FromJSON
+                  , (.:)
+                  , (.:?)
+                  , Value ( Object )
+                  , parseJSON
+                  , decode )
+import Control.Lens ( (^.) )
+import Control.Monad ( join )
+import Control.Monad.Trans ( liftIO )
+import Control.Monad.Trans.Maybe ( runMaybeT
+                                 , MaybeT ( MaybeT ) )
+import Data.Maybe ( catMaybes
+                  , fromMaybe )
+
+
+class PPrint a where
+  pprint :: a -> String
 
 
 data PullRequest = PullRequest
@@ -24,24 +37,30 @@ instance FromJSON PullRequest where
     <*> (o .: "title") -- title
     <*> (o .: "updated_at") -- date updated
     <*> (o .: "user" >>= (.: "login")) -- user
-    <*> (o .: "body") -- description
+    <*> (o .: "body")
+    -- <*> fmap (fromMaybe "") (o .:? "body") -- description
   parseJSON _ =
     mempty
 
+instance PPrint PullRequest where
+  pprint pr =
+    repo pr ++ ": " ++ title pr
+
+
 
 --getPullRequests :: (FromJSON a) => String -> IO (Maybe a)
-getPullRequests :: String -> MaybeT IO [PullRequest]
-getPullRequests url = do
+maybeGetPullRequests :: String -> MaybeT IO [PullRequest]
+maybeGetPullRequests url = do
   resp <- liftIO . get $ url
   let mpr = decode . (^. responseBody) $ resp
-    in MaybeT . return $ case mpr of
-                           Nothing -> Nothing
-                           Just pr -> Just pr
+    in MaybeT . return $ mpr
 
-main = runMaybeT $ do
-  prs <- getPullRequests "https://api.github.com/repos/haskell/mtl/pulls"
-  liftIO . print $ prs
+getAllPullRequests :: [String] -> IO [PullRequest]
+getAllPullRequests urls =
+  (join . catMaybes) <$> mapM (runMaybeT . maybeGetPullRequests) urls
 
-
-
-  -- print $  >>= (\m -> return $ m >>= (decode :: ByteString -> PullRequest))
+main = do
+  urls <- getArgs
+  prs <- getAllPullRequests urls
+  repr <- return . unlines $ pprint <$> prs
+  putStr repr
