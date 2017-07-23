@@ -33,6 +33,8 @@ alias update="/home/coleman/Code/Workstation/copy-workstation.sh"
 alias homemonitor="sudo xrandr --output VGA1 --auto --right-of eDP1"
 alias runmagma="/home/coleman/SourceRepos/magma/magma"
 alias asdf="bash /home/coleman/.set-keyboard-layout.sh"
+alias pdflatex='mkdir -p tmp; pdflatex -output-directory tmp '
+alias lua="lua5.3"
 
 alias c="clear && echo && ls"
 
