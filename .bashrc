@@ -12,13 +12,12 @@ YELLOW="$(tput setaf 3)"
 BLUE="$(tput setaf 4)"
 PURPLE="$(tput setaf 5)"
 TEAL="$(tput setaf 6)"
-RED="$(tput setaf 1)"
 ITALIC=$(tput sitm)
 BOLD=$(tput bold)
-RESET="$(tput sgr0)"
+RESET=$(tput sgr0)
 
 alias ls='ls --color=auto'
-PS1='\n${GREEN}${ITALIC}$(date +"%a, %r")${RESET}${RED} ${RESET}| ${RESET}${RED}\w \n ${RESET}${BOLD}${PURPLE}λ${RESET} '
+PS1='\n$(date +"%a, %r")${RESET} | \w \n λ '
 # export PS1="\e[0;31m[\u@\h \W]\$ \e[m "
 
 

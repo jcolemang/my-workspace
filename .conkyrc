@@ -8,10 +8,12 @@ conky.config = {
 conky.text = [[
   ${time %c}
 
-  $battery_percent %
+  ${texeci 144000 get-pull-requests ~/.github-repos.yaml}
+
+  Battery --> $battery_percent%
 
   ${color grey}RAM --> $color $mem/$memmax - $memperc% ${membar 4}
 
   Usage:$color $cpu%
-  ${cpugraph 000000 ffffff}
+
   ]]
