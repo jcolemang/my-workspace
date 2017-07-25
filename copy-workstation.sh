@@ -6,4 +6,4 @@ cp ~/.set-keyboard-layout.sh /home/coleman/Code/Workstation/
 cp ~/.xinitrc /home/coleman/Code/Workstation/
 cp ~/.emacs.d/init.el /home/coleman/Code/Workstation/.emacs.d/
 cp ~/.conkyrc /home/coleman/Code/Workstation/
-
+cp ~/.github-repos.yaml /home/coleman/Code/Workstation/

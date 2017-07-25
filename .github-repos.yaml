@@ -1,0 +1,5 @@
+
+repos:
+- haskell:mtl
+- dfrtwo:tidy-text-mining
+- jcolemang:my-workspace
