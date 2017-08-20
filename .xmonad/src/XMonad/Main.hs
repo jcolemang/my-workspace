@@ -184,6 +184,9 @@ myKeys conf = Map.fromList $
         "/org/mpris/MediaPlayer2 " ++
         "org.mpris.MediaPlayer2.Player.Pause" )
 
+    , ( (0, xF86XK_AudioMicMute)
+      , spawn "amixer set Capture toggle" )
+
     , ( (myModMask, xK_k)
       , spawn "~/.xmonad/scripts/layout.sh" )
 
