@@ -4,6 +4,13 @@ import qualified Data.Map                     as Map
 import           Graphics.X11.ExtraTypes.XF86
 import           XMonad
 import qualified XMonad.StackSet              as SS
+import XMonad.Hooks.SetWMName
+
+import XMonad.Actions.Commands
+import XMonad.Actions.Submap
+-- import XMonad
+import XMonad.Prompt
+import XMonad.Prompt.Shell
 
 
 -- ~~~~~ My Configuration ~~~~~
@@ -59,29 +66,41 @@ myKeys conf = Map.fromList $
   in
 
   -- opening applications
-    [ ( (myModMask, xK_Return)
-      , spawn $ XMonad.terminal conf )
-
-    , ( (myModMask, xK_e)
-      , spawn editor )
-
-    , ( (myModMask .|. shiftMask, xK_e)
+    [ ( (myModMask, xK_o)
+      , submap . Map.fromList $
+      [ ( (0, xK_m)
+        , spawn music
+        )
+      , ( (0, xK_f)
+        , spawn files
+        )
+      , ( (0, xK_w)
+        , spawn browser
+        )
+      , ( (0, xK_e)
+        , spawn editor
+        )
+      , ( (0, xK_t)
+        , spawn $ XMonad.terminal conf
+        )
+      , ( (0, xK_i)
+        , spawn "idea.sh"
+        )
+      ]
+      )
+    ]
+    ++
+    [ ( (myModMask .|. shiftMask, xK_e)
       , spawn startEmacs )
-
-    , ( (myModMask, xK_w)
-      , spawn browser )
 
     , ( (myModMask, xK_s)
       , spawn appSearch )
 
-    , ( (myModMask, xK_m)
-      , spawn music )
-
-    , ( (myModMask, xK_f)
-      , spawn files )
-
     , ( (0, xK_Print)
       , spawn screenshot )
+
+    , ( (myModMask, xK_i)
+      , spawn "idea.sh" )
 
     ]
 
@@ -130,6 +149,12 @@ myKeys conf = Map.fromList $
     , ( (myModMask .|. shiftMask, xK_q)
       , spawn "pkill myxmonad" )
 
+    , ( (myModMask, xK_c)
+      , defaultCommands >>= runCommand )
+
+    , ( (myModMask .|. controlMask, xK_x)
+      , shellPrompt def)
+
     ]
 
     ++
@@ -154,6 +179,8 @@ myKeys conf = Map.fromList $
       , lowerVolume )
     , ( (0, xF86XK_AudioRaiseVolume)
       , raiseVolume )
+    , ( (0, xF86XK_AudioMute)
+      , spawn "amixer -D pulse sset Master toggle" )
 
     -- used command from https://ubuntuforums.org/showthread.php?t=1797848
     , ( (0, xF86XK_AudioNext)
@@ -207,15 +234,15 @@ myKeys conf = Map.fromList $
 numPadKeys = [ xK_KP_End    ,xK_KP_Down , xK_KP_Page_Down -- 1, 2, 3
              , xK_KP_Left   ,xK_KP_Begin, xK_KP_Right     -- 4, 5, 6
              , xK_KP_Home   ,xK_KP_Up   , xK_KP_Page_Up   -- 7, 8, 9
-             , xK_KP_Insert                             --    0
+             , xK_KP_Insert                             --      0
              ]
 
 
 myStartupHook = do
   spawn setMyBackground
   spawn startConky
-  spawn "compton"
   spawn startEmacs
+  setWMName "LG3D" -- to fix intellij
 
 
 main :: IO ()

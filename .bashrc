@@ -31,9 +31,16 @@ alias umlet="java -jar /home/coleman/Classes/CSSE374SoftwareDesign/UMLet/umlet.j
 alias update="/home/coleman/Code/Workstation/copy-workstation.sh"
 alias homemonitor="sudo xrandr --output VGA1 --auto --right-of eDP1"
 alias runmagma="/home/coleman/SourceRepos/magma/magma"
+alias lua="lua5.3"
+
 alias asdf="bash /home/coleman/.set-keyboard-layout.sh"
+alias asht="bash /home/coleman/.set-keyboard-layout.sh"
+alias aoeu="setxkbmap -layout us -variant workman"
+alias sissy="setxkbmap -layout us"
 
 alias c="clear && echo && ls"
+
+alias notebook="~/anaconda3/bin/jupyter-notebook ~/Classes/Current/deep-learning/"
 
 # my common typos
 alias please='sudo'
@@ -43,10 +50,11 @@ alias l="ls"
 # classes
 alias classes="cd ~/Classes/Current/"
 alias plc="cd ~/Classes/Current/plc/"
-alias codes="cd ~/Classes/Current/algebraic-codes/"
-alias theory="cd ~/Classes/Current/theory-of-comp/"
-alias databases="cd ~/Classes/Current/advanced-databases/"
+alias stats="cd ~/Classes/Current/stats/"
+alias design="cd ~/Classes/Current/functional-design/"
+alias senior="cd ~/Classes/Current/senior-project/"
+alias learning="cd ~/Classes/Current/deep-learning/"
 
 # configuring editor
 export EDITOR=vim
-set -o vi
+# set -o vi
