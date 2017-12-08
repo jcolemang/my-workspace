@@ -6,6 +6,8 @@ import           XMonad
 import qualified XMonad.StackSet              as SS
 import XMonad.Actions.Submap
 
+import XMonad.Actions.WindowMenu
+
 
 -- ~~~~~ My Configuration ~~~~~
 
@@ -83,17 +85,19 @@ myKeys conf = Map.fromList $
         , ( (0, xK_m)
           , spawn music
           )
-        , ( (myModMask, xK_w)
+        , ( (0, xK_w)
           , spawn browser
           )
-        , ( (myModMask, xK_f)
+        , ( (0, xK_f)
           , spawn files
           )
-        , ( (myModMask, xK_t)
+        , ( (0, xK_t)
           , spawn $ XMonad.terminal conf
           )
         ]
       )
+
+    , ((myModMask, xK_t ), windowMenu)
 
     , ( (myModMask, xK_m)
       , submap . Map.fromList $

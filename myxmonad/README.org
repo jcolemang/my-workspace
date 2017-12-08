@@ -3,13 +3,16 @@
 
   Using Nix, you can build this XMonad configuration using the following:
 
-  #+BEGIN_SRC nix
+  #+BEGIN_SRC bash
   nix-env -f default.nix -i myxmonad
   #+END_SRC
+
+  You may want to run this from within ~nix-shell~ to prevent the entire set of
+  dependencies being rebuilt.
 
   Otherwise, you can just use stack. You will probably need to modify the
   ~stack.yaml~ file to get rid of the Nix configuration, then can just run:
 
-  #+BEGIN_SRC nix
+  #+BEGIN_SRC bash
   stack install
   #+END_SRC
