@@ -1,9 +1,18 @@
+
 flags: {}
+
 extra-package-dbs: []
+
 packages:
 - .
+
 extra-deps:
 - X11-xft-0.3.1
 - wreq-0.5.0.1
 - xmonad-contrib-0.13
-resolver: lts-8.4
+
+resolver: lts-9.9
+
+nix:
+  enable: true
+  shell-file: shell.nix

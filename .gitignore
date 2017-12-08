@@ -5,7 +5,6 @@
 *xmonad.state
 *xmonad.errors
 *xmonad-x86_64-linux
-.xmonad/.stack-work/
 
 # emacs ignore
 .emacs.d/tests/

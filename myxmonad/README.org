@@ -1,0 +1,15 @@
+
+* Building
+
+  Using Nix, you can build this XMonad configuration using the following:
+
+  #+BEGIN_SRC nix
+  nix-env -f default.nix -i myxmonad
+  #+END_SRC
+
+  Otherwise, you can just use stack. You will probably need to modify the
+  ~stack.yaml~ file to get rid of the Nix configuration, then can just run:
+
+  #+BEGIN_SRC nix
+  stack install
+  #+END_SRC

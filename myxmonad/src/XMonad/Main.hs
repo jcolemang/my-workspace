@@ -4,13 +4,7 @@ import qualified Data.Map                     as Map
 import           Graphics.X11.ExtraTypes.XF86
 import           XMonad
 import qualified XMonad.StackSet              as SS
-import XMonad.Hooks.SetWMName
-
-import XMonad.Actions.Commands
 import XMonad.Actions.Submap
--- import XMonad
-import XMonad.Prompt
-import XMonad.Prompt.Shell
 
 
 -- ~~~~~ My Configuration ~~~~~
@@ -26,11 +20,17 @@ browser              = "firefox"
 appSearch            = "dmenu_run" -- rebind mod to windows key
 music                = "spotify"   -- code to skip songs relies on this
 editor               = "emacsclient -nc"
-files                = "nautilus"
-setMyBackground      = "feh --bg-scale ~/Code/Workstation/background.png"
-startConky           = "conky"
-screenshot           = "gnome-screenshot"
-
+files                = "krusader"
+-- setMyBackground   = "feh --bg-scale ~/Code/Workstation/background.png"
+screenshot           = "gnome-screenshot -a"
+nextSong             = "dbus-send --print-reply " ++
+                       "--dest=org.mpris.MediaPlayer2.spotify " ++
+                       "/org/mpris/MediaPlayer2 " ++
+                       "org.mpris.MediaPlayer2.Player.Next"
+previousSong         = "dbus-send --print-reply " ++
+                       "--dest=org.mpris.MediaPlayer2.spotify " ++
+                       "/org/mpris/MediaPlayer2 " ++
+                       "org.mpris.MediaPlayer2.Player.Previous"
 
 -- workspace names
 consoleWorkspace = "1:console"
@@ -68,39 +68,38 @@ myKeys conf = Map.fromList $
   -- opening applications
     [ ( (myModMask, xK_o)
       , submap . Map.fromList $
-      [ ( (0, xK_m)
-        , spawn music
-        )
-      , ( (0, xK_f)
-        , spawn files
-        )
-      , ( (0, xK_w)
-        , spawn browser
-        )
-      , ( (0, xK_e)
-        , spawn editor
-        )
-      , ( (0, xK_t)
-        , spawn $ XMonad.terminal conf
-        )
-      , ( (0, xK_i)
-        , spawn "idea.sh"
-        )
-      ]
+        [ ( (0, xK_e)
+          , spawn editor
+          )
+        , ( (0, xK_m)
+          , spawn music
+          )
+        , ( (myModMask, xK_w)
+          , spawn browser
+          )
+        , ( (myModMask, xK_f)
+          , spawn files
+          )
+        , ( (myModMask, xK_t)
+          , spawn $ XMonad.terminal conf
+          )
+        ]
       )
-    ]
-    ++
-    [ ( (myModMask .|. shiftMask, xK_e)
+
+    , ( (myModMask, xK_Return)
+      , spawn $ XMonad.terminal conf )
+
+    , ( (myModMask .|. shiftMask, xK_e)
       , spawn startEmacs )
 
     , ( (myModMask, xK_s)
       , spawn appSearch )
 
+    -- , ( (myModMask, xK_m)
+    --   , spawn music )
+
     , ( (0, xK_Print)
       , spawn screenshot )
-
-    , ( (myModMask, xK_i)
-      , spawn "idea.sh" )
 
     ]
 
@@ -149,12 +148,6 @@ myKeys conf = Map.fromList $
     , ( (myModMask .|. shiftMask, xK_q)
       , spawn "pkill myxmonad" )
 
-    , ( (myModMask, xK_c)
-      , defaultCommands >>= runCommand )
-
-    , ( (myModMask .|. controlMask, xK_x)
-      , shellPrompt def)
-
     ]
 
     ++
@@ -179,23 +172,13 @@ myKeys conf = Map.fromList $
       , lowerVolume )
     , ( (0, xF86XK_AudioRaiseVolume)
       , raiseVolume )
-    , ( (0, xF86XK_AudioMute)
-      , spawn "amixer -D pulse sset Master toggle" )
 
     -- used command from https://ubuntuforums.org/showthread.php?t=1797848
     , ( (0, xF86XK_AudioNext)
-      , spawn $
-        "dbus-send --print-reply " ++
-        "--dest=org.mpris.MediaPlayer2.spotify " ++
-        "/org/mpris/MediaPlayer2 " ++
-        "org.mpris.MediaPlayer2.Player.Next" )
+      , spawn nextSong )
 
     , ( (0, xF86XK_AudioPrev)
-      , spawn $
-        "dbus-send --print-reply " ++
-        "--dest=org.mpris.MediaPlayer2.spotify " ++
-        "/org/mpris/MediaPlayer2 " ++
-        "org.mpris.MediaPlayer2.Player.Previous" )
+      , spawn previousSong )
 
     , ( (0, xF86XK_AudioPlay)
       , spawn $
@@ -213,6 +196,9 @@ myKeys conf = Map.fromList $
 
     , ( (0, xF86XK_AudioMicMute)
       , spawn "amixer set Capture toggle" )
+
+    , ( (0, xF86XK_AudioMute)
+      , spawn "amixer set Master toggle" )
 
     , ( (myModMask, xK_k)
       , spawn "~/.xmonad/scripts/layout.sh" )
@@ -234,15 +220,15 @@ myKeys conf = Map.fromList $
 numPadKeys = [ xK_KP_End    ,xK_KP_Down , xK_KP_Page_Down -- 1, 2, 3
              , xK_KP_Left   ,xK_KP_Begin, xK_KP_Right     -- 4, 5, 6
              , xK_KP_Home   ,xK_KP_Up   , xK_KP_Page_Up   -- 7, 8, 9
-             , xK_KP_Insert                             --      0
+             , xK_KP_Insert                             --    0
              ]
 
 
 myStartupHook = do
-  spawn setMyBackground
-  spawn startConky
+  -- spawn setMyBackground
+  -- spawn startConky
+  -- spawn "compton"
   spawn startEmacs
-  setWMName "LG3D" -- to fix intellij
 
 
 main :: IO ()
