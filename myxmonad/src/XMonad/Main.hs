@@ -21,8 +21,9 @@ appSearch            = "dmenu_run" -- rebind mod to windows key
 music                = "spotify"   -- code to skip songs relies on this
 editor               = "emacsclient -nc"
 files                = "krusader"
--- setMyBackground   = "feh --bg-scale ~/Code/Workstation/background.png"
 screenshot           = "gnome-screenshot -a"
+
+-- used command from https://ubuntuforums.org/showthread.php?t=1797848
 nextSong             = "dbus-send --print-reply " ++
                        "--dest=org.mpris.MediaPlayer2.spotify " ++
                        "/org/mpris/MediaPlayer2 " ++
@@ -31,6 +32,14 @@ previousSong         = "dbus-send --print-reply " ++
                        "--dest=org.mpris.MediaPlayer2.spotify " ++
                        "/org/mpris/MediaPlayer2 " ++
                        "org.mpris.MediaPlayer2.Player.Previous"
+pauseSong            = "dbus-send --print-reply " ++
+                       "--dest=org.mpris.MediaPlayer2.spotify " ++
+                       "/org/mpris/MediaPlayer2 " ++
+                       "org.mpris.MediaPlayer2.Player.Pause"
+playSong             = "dbus-send --print-reply " ++
+                       "--dest=org.mpris.MediaPlayer2.spotify " ++
+                       "/org/mpris/MediaPlayer2 " ++
+                       "org.mpris.MediaPlayer2.Player.Play"
 
 -- workspace names
 consoleWorkspace = "1:console"
@@ -82,6 +91,23 @@ myKeys conf = Map.fromList $
           )
         , ( (myModMask, xK_t)
           , spawn $ XMonad.terminal conf
+          )
+        ]
+      )
+
+    , ( (myModMask, xK_m)
+      , submap . Map.fromList $
+        [ ( (0, xK_n)
+          , spawn nextSong
+          )
+        , ( (0, xK_b)
+          , spawn previousSong
+          )
+        , ( (0, xK_p)
+          , spawn pauseSong
+          )
+        , ( (0, xK_s)
+          , spawn playSong
           )
         ]
       )
@@ -173,7 +199,6 @@ myKeys conf = Map.fromList $
     , ( (0, xF86XK_AudioRaiseVolume)
       , raiseVolume )
 
-    -- used command from https://ubuntuforums.org/showthread.php?t=1797848
     , ( (0, xF86XK_AudioNext)
       , spawn nextSong )
 
@@ -181,18 +206,12 @@ myKeys conf = Map.fromList $
       , spawn previousSong )
 
     , ( (0, xF86XK_AudioPlay)
-      , spawn $
-        "dbus-send --print-reply " ++
-        "--dest=org.mpris.MediaPlayer2.spotify " ++
-        "/org/mpris/MediaPlayer2 " ++
-        "org.mpris.MediaPlayer2.Player.Play" )
+      , spawn playSong
+      )
 
     , ( (myModMask, xF86XK_AudioPlay)
-      , spawn $
-        "dbus-send --print-reply " ++
-        "--dest=org.mpris.MediaPlayer2.spotify " ++
-        "/org/mpris/MediaPlayer2 " ++
-        "org.mpris.MediaPlayer2.Player.Pause" )
+      , spawn pauseSong
+      )
 
     , ( (0, xF86XK_AudioMicMute)
       , spawn "amixer set Capture toggle" )
