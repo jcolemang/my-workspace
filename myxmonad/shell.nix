@@ -9,6 +9,8 @@ haskell.lib.buildStackProject {
     haskellPackages.stack
     zlib
     x11
+    xorg.libX11
+    xorg.libXext
     xorg.libXrandr
   ];
 

@@ -22,7 +22,7 @@ browser              = "firefox"
 appSearch            = "dmenu_run" -- rebind mod to windows key
 music                = "spotify"   -- code to skip songs relies on this
 editor               = "emacsclient -nc"
-files                = "krusader"
+files                = "dolphin"
 screenshot           = "gnome-screenshot -a"
 
 -- used command from https://ubuntuforums.org/showthread.php?t=1797848
