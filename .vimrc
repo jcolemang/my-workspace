@@ -1,4 +1,3 @@
-
 " ~~~~~ PLUGIN NONSENSE ~~~~~
 set nocompatible
 filetype off
@@ -9,14 +8,43 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'bling/vim-airline'
 Plugin 'flazz/vim-colorschemes'
-Plugin 'ghcmod-vim'
+Plugin 'eagletmt/ghcmod-vim'
+Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-repeat'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'yangmillstheory/vim-snipe'
+Plugin 'plasticboy/vim-markdown'
+Plugin 'shougo/vimproc'
+Plugin 'vim-syntastic/syntastic'
+
+let mapleader = " "
+
+" ~~~~~ Plugin settings ~~~~~
+
+" ~~~~~ Vim Snipe ~~~~~
+let g:snipe_jump_tokens = 'euhtn'
+
+map <leader><leader>f <Plug>(snipe-f)
+
+" ~~~~~ Syntastic ~~~~~
+
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+" ~~~~~ Airline ~~~~~
+let g:airline#extensions#tabline#enabled = 1
+set t_Co=256
+
+" ~~~~~~ Vundle ~~~~~
 
 call vundle#end()
 filetype plugin indent on
-
-" airline
-let g:airline#extensions#tabline#enabled = 1
-set t_Co=256
 
 
 " ~~~~~ KEY MAPPINGS ~~~~~
@@ -34,17 +62,19 @@ noremap <PageDown> <nop>
 inoremap <PageUp> <nop>
 inoremap <PageDown> <nop>
 
-inoremap hl <ESC>
-inoremap lh <ESC>
 
 " Actually useful
 
-" Fast searching
-noremap <space> /
+nnoremap j gj
+nnoremap k gk
 
-" Fast scrolling
-noremap J 5j
-noremap K 5k
+inoremap hl <ESC>
+inoremap lh <ESC>
+
+inoremap <C-l> <right>
+inoremap <C-h> <left>
+inoremap <C-k> <up>
+inoremap <C-j> <down>
 
 " Because I got used to the Emacs shortcut
 noremap <C-X>o <C-W><C-W>
@@ -81,9 +111,3 @@ set noswapfile
 " ~~~~~ LINE NUMBERS ~~~~~
 set number
 highlight LineNr ctermfg=DarkGrey  
-
-
-
-
-
-
