@@ -5,8 +5,8 @@ import           Graphics.X11.ExtraTypes.XF86
 import           XMonad
 import qualified XMonad.StackSet              as SS
 import XMonad.Actions.Submap
-
 import XMonad.Actions.WindowMenu
+import XMonad.Hooks.DynamicLog
 
 
 -- ~~~~~ My Configuration ~~~~~
@@ -23,7 +23,7 @@ appSearch            = "dmenu_run" -- rebind mod to windows key
 music                = "spotify"   -- code to skip songs relies on this
 editor               = "emacsclient -nc"
 files                = "dolphin"
-screenshot           = "gnome-screenshot -a"
+screenshot           = "bash -c 'sleep 0.1; gnome-screenshot -a'"
 
 -- used command from https://ubuntuforums.org/showthread.php?t=1797848
 nextSong             = "dbus-send --print-reply " ++
@@ -42,6 +42,7 @@ playSong             = "dbus-send --print-reply " ++
                        "--dest=org.mpris.MediaPlayer2.spotify " ++
                        "/org/mpris/MediaPlayer2 " ++
                        "org.mpris.MediaPlayer2.Player.Play"
+resetTime            = "sudo ntpd -gq"
 
 -- workspace names
 consoleWorkspace = "1:console"
@@ -64,17 +65,33 @@ myWorkspaces =
   in named ++ map show [(length named)..10]
 
 
-myManageHook = foldl mappend mempty
-  [ className =? browser --> doShift webWorkspace ]
+myManageHook = composeAll
+  [ title =? browser --> doShift webWorkspace ]
 
 
 myKeys conf = Map.fromList $
 
-  let lowerVolume    = spawn "amixer -q sset Master 5%-"
-      raiseVolume    = spawn "amixer -q sset Master 5%+"
-      dimScreen      = spawn "xbacklight -dec 5"
-      brightenScreen = spawn "xbacklight -inc 5"
+  let lowerVolume
+        = spawn "pactl set-sink-volume alsa_output.pci-0000_00_1b.0.analog-stereo -5%"
+      raiseVolume
+        = spawn "pactl set-sink-volume alsa_output.pci-0000_00_1b.0.analog-stereo +5%"
+      muteVolume
+        = "pactl set-sink-mute alsa_output.pci-0000_00_1b.0.analog-stereo toggle"
+      dimScreen      = spawn "light -U 5"
+      brightenScreen = spawn "light -A 5"
   in
+
+    [ ( (myModMask, xK_c)
+      , submap . Map.fromList $
+        [ ( (0, xK_s)
+          , submap . Map.fromList $
+            [ ( (0, xK_e)
+              , spawn "echo \"¯\\\\_(ツ)_/¯\" | xclip" )
+            ] )
+        ] )
+    ]
+    
+    ++ 
 
   -- opening applications
     [ ( (myModMask, xK_o)
@@ -97,7 +114,21 @@ myKeys conf = Map.fromList $
         ]
       )
 
-    , ((myModMask, xK_t ), windowMenu)
+    , ( (myModMask, xK_t)
+      , submap . Map.fromList $
+      [ ( (0, xK_t)
+        , submap . Map.fromList $
+        [ ( (0, xK_p)
+          , submap . Map.fromList $
+          [ ( (0, xK_d)
+            , spawn "xinput --disable 12"
+            )
+          , ( (0, xK_e)
+            , spawn "xinput --enable 12"
+            )
+          ] )
+        ] )
+      ] )
 
     , ( (myModMask, xK_m)
       , submap . Map.fromList $
@@ -124,11 +155,10 @@ myKeys conf = Map.fromList $
 
     , ( (myModMask, xK_s)
       , spawn appSearch )
-
-    -- , ( (myModMask, xK_m)
-    --   , spawn music )
-
+    
     , ( (0, xK_Print)
+      , spawn screenshot )
+    , ( (myModMask, xK_backslash)
       , spawn screenshot )
 
     ]
@@ -193,11 +223,6 @@ myKeys conf = Map.fromList $
     , ( (0, xF86XK_MonBrightnessUp)
       , brightenScreen )
 
-    , ( (myModMask, xK_slash)
-      , lowerVolume )
-    , ( (myModMask, xK_backslash)
-      , raiseVolume )
-
     , ( (0, xF86XK_AudioLowerVolume)
       , lowerVolume )
     , ( (0, xF86XK_AudioRaiseVolume)
@@ -217,15 +242,77 @@ myKeys conf = Map.fromList $
       , spawn pauseSong
       )
 
-    , ( (0, xF86XK_AudioMicMute)
-      , spawn "amixer set Capture toggle" )
-
     , ( (0, xF86XK_AudioMute)
-      , spawn "amixer set Master toggle" )
+      , spawn muteVolume )
 
     , ( (myModMask, xK_k)
       , spawn "~/.xmonad/scripts/layout.sh" )
 
+    , ( (myModMask, xK_g)
+      , submap . Map.fromList $
+        [ ( (0, xK_t)
+          , submap . Map.fromList $
+            [ ( (0, xK_s)
+              , spawn "systemctl suspend" )
+            ] )
+        ] )
+           
+    , ( (myModMask, xK_d)
+      , submap . Map.fromList $
+      [ ( (0, xK_v)
+        , submap . Map.fromList $
+          [ ( (0, xK_g)
+            , submap . Map.fromList $
+              [ ( (0, xK_a)
+                , submap . Map.fromList $
+                  [ ( (0, xK_n)
+                    , spawn "xrandr --output VGA-1 --auto"
+                    )
+                  , ( (0, xK_f)
+                    , spawn "xrandr --output VGA-1 --off"
+                    )
+                  ] )
+              ] )
+          ] )
+      , ( (0, xK_e)
+        , submap . Map.fromList $
+          [ ( (0, xK_d)
+            , submap . Map.fromList $
+              [ ( (0, xK_p)
+                , submap . Map.fromList $
+                  [ ( (0, xK_n)
+                    , spawn "xrandr --output eDP-1 --auto"
+                    )
+                  , ( (0, xK_f)
+                    , spawn "xrandr --output eDP-1 --off"
+                    )
+                  ] )
+              ] )
+          ] )
+      ] )
+
+    , ( (myModMask, xK_i)
+      , submap . Map.fromList $
+      [ ( (0, xK_s)
+        , submap . Map.fromList $
+          [ ( (0, xK_h)
+            , spawn "sudo netctl stop-all; sudo netctl start home"
+            )
+          , ( (0, xK_s)
+            , spawn "sudo netctl stop-all; sudo netctl start school"
+            )
+          ] )
+      ] )
+
+    , ( (myModMask, xK_r)
+      , submap . Map.fromList $
+      [ ( (0, xK_s)
+        , submap . Map.fromList $
+        [ ( (0, xK_t)
+          , spawn "sudo ntpd -gq"
+          )
+        ] )
+      ] )
     ]
 
   ++
@@ -239,20 +326,15 @@ myKeys conf = Map.fromList $
                           ]
     ]
 
-
 numPadKeys = [ xK_KP_End    ,xK_KP_Down , xK_KP_Page_Down -- 1, 2, 3
              , xK_KP_Left   ,xK_KP_Begin, xK_KP_Right     -- 4, 5, 6
              , xK_KP_Home   ,xK_KP_Up   , xK_KP_Page_Up   -- 7, 8, 9
              , xK_KP_Insert                             --    0
              ]
 
-
 myStartupHook = do
-  -- spawn setMyBackground
-  -- spawn startConky
-  -- spawn "compton"
-  spawn startEmacs
-
+  spawn "autocutsel -fork &"
+  spawn "autocutsel -selection PRIMARY -fork &"
 
 main :: IO ()
 main =
@@ -262,6 +344,7 @@ main =
   , modMask            = myModMask
   , workspaces         = myWorkspaces
   , manageHook         = myManageHook
+  , logHook            = dynamicLog
   , keys               = myKeys
   , normalBorderColor  = myNormalBorderColor
   , focusedBorderColor = myFocusedBorderColor
