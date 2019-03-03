@@ -1,34 +1,33 @@
-;;; init.el --- Spacemacs Initialization File
-;;
-;; Copyright (c) 2012-2017 Sylvain Benner & Contributors
-;;
-;; Author: Sylvain Benner <sylvain.benner@gmail.com>
-;; URL: https://github.com/syl20bnr/spacemacs
-;;
-;; This file is not part of GNU Emacs.
-;;
-;;; License: GPLv3
 
-;; Without this comment emacs25 adds (package-initialize) here
-;; (package-initialize)
+;; Added by Package.el.  This must come before configurations of
+;; installed packages.  Don't delete this line.  If you don't want it,
+;; just comment it out by adding a semicolon to the start of the line.
+;; You may delete these explanatory comments.
+(package-initialize)
 
-;; Increase gc-cons-threshold, depending on your system you may set it back to a
-;; lower value in your dotfile (function `dotspacemacs/user-config')
-(setq gc-cons-threshold 100000000)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   (quote
+    ("5f27195e3f4b85ac50c1e2fac080f0dd6535440891c54fcfa62cdcefedf56b1b" "61003d455ba1bad9a3bf8be7342e848ca3febe899319e95a9dc3d804d9697608" default)))
+ '(package-selected-packages
+   (quote
+    (elm-mode geiser yaml-mode ws-butler paredit magit plantuml-mode indent-guide web-mode intero avy haskell-mode monokai-theme))))
 
-(defconst spacemacs-version          "0.200.7" "Spacemacs version.")
-(defconst spacemacs-emacs-min-version   "24.4" "Minimal version of Emacs.")
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
 
-(if (not (version<= spacemacs-emacs-min-version emacs-version))
-    (message (concat "Your version of Emacs (%s) is too old. "
-                     "Spacemacs requires Emacs version %s or above.")
-             emacs-version spacemacs-emacs-min-version)
-  (load-file (concat (file-name-directory load-file-name)
-                     "core/core-load-paths.el"))
-  (require 'core-spacemacs)
-  (spacemacs/init)
-  (configuration-layer/sync)
-  (spacemacs-buffer/display-startup-note)
-  (spacemacs/setup-startup-hook)
-  (require 'server)
-  (unless (server-running-p) (server-start)))
+
+(require 'org)
+(org-babel-load-file
+ (expand-file-name "settings.org"
+                   user-emacs-directory))
+
+(put 'set-goal-column 'disabled nil)

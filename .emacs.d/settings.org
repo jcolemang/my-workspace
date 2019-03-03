@@ -1,0 +1,91 @@
+
+* Importing Packages
+ #+BEGIN_SRC emacs-lisp
+(add-to-list 'package-archives
+             '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+ #+END_SRC
+
+* Navigation
+#+BEGIN_SRC emacs-lisp
+;; avy stuff
+(require 'avy)
+(avy-setup-default)
+(global-set-key (kbd "C-x j l") 'avy-goto-line)
+#+END_SRC
+
+* Visual Changes
+#+BEGIN_SRC emacs-lisp
+(menu-bar-mode -1)
+(load-theme 'monokai)
+
+;; (set-frame-font "Noto Mono 11" nil t)
+
+(require 'indent-guide)
+(indent-guide-global-mode) ;; always on
+#+END_SRC
+
+* Basic Behavior
+#+BEGIN_SRC emacs-lisp
+(setq read-buffer-completion-ignore-case 1)
+(setq completion-ignore-case 1)
+(setq read-file-name-completion-ignore-case 1)
+(setq-default indent-tabs-mode nil)
+
+(setq scroll-step            1
+      scroll-conservatively  10000)
+
+(global-unset-key (kbd "C-z"))
+#+END_SRC
+
+* General Libraries
+#+BEGIN_SRC emacs-lisp
+(require 'magit)
+
+(require 'ws-butler)
+#+END_SRC
+
+* Language Specific
+** Haskell
+#+BEGIN_SRC emacs-lisp
+(require 'haskell-mode)
+#+END_SRC
+
+** Elm
+#+BEGIN_SRC elm
+(require 'elm-mode)
+#+END_SRC
+
+** Racket
+#+BEGIN_SRC emacs-lisp
+(require 'geiser)
+(add-to-list 'auto-mode-alist '("\\.rkt\\'" . scheme-mode))
+#+END_SRC
+
+** Coq
+#+BEGIN_SRC emacs-lisp
+(load "~/.emacs.d/lisp/PG/generic/proof-site")
+#+END_SRC
+
+** Shell
+#+BEGIN_SRC emacs-lisp
+(setq pcomplete-ignore-case 1)
+#+END_SRC
+
+** Org
+#+BEGIN_SRC emacs-lisp
+(setq org-src-fontify-natively 1)
+#+END_SRC
+
+** HTML
+#+BEGIN_SRC emacs-lisp
+(require 'web-mode)
+(add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
+#+END_SRC
+
+** PlantUML
+#+BEGIN_SRC emacs-lisp
+(require 'plantuml-mode)
+(add-to-list 'auto-mode-alist '("\\.puml\\'" . plantuml-mode))
+(setq plantuml-jar-path "/home/coleman/Packages/plantuml/plantuml.jar")
+(setq org-plantuml-jar-path "/home/coleman/Packages/plantuml/plantuml.jar")
+#+END_SRC
