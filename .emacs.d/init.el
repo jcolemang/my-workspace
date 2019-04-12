@@ -15,7 +15,7 @@
     ("5f27195e3f4b85ac50c1e2fac080f0dd6535440891c54fcfa62cdcefedf56b1b" "61003d455ba1bad9a3bf8be7342e848ca3febe899319e95a9dc3d804d9697608" default)))
  '(package-selected-packages
    (quote
-    (elm-mode geiser yaml-mode ws-butler paredit magit plantuml-mode indent-guide web-mode intero avy haskell-mode monokai-theme))))
+    (rjsx-mode typescript-mode docker-compose-mode dockerfile-mode elm-mode geiser yaml-mode ws-butler paredit magit plantuml-mode indent-guide web-mode intero avy haskell-mode monokai-theme))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

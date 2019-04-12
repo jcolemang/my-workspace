@@ -50,20 +50,10 @@
 (require 'haskell-mode)
 #+END_SRC
 
-** Elm
-#+BEGIN_SRC elm
-(require 'elm-mode)
-#+END_SRC
-
 ** Racket
 #+BEGIN_SRC emacs-lisp
 (require 'geiser)
 (add-to-list 'auto-mode-alist '("\\.rkt\\'" . scheme-mode))
-#+END_SRC
-
-** Coq
-#+BEGIN_SRC emacs-lisp
-(load "~/.emacs.d/lisp/PG/generic/proof-site")
 #+END_SRC
 
 ** Shell
@@ -82,10 +72,21 @@
 (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
 #+END_SRC
 
-** PlantUML
+** YAML
 #+BEGIN_SRC emacs-lisp
-(require 'plantuml-mode)
-(add-to-list 'auto-mode-alist '("\\.puml\\'" . plantuml-mode))
-(setq plantuml-jar-path "/home/coleman/Packages/plantuml/plantuml.jar")
-(setq org-plantuml-jar-path "/home/coleman/Packages/plantuml/plantuml.jar")
+(require 'yaml-mode)
+#+END_SRC
+
+** Docker
+#+BEGIN_SRC emacs-lisp
+(require 'dockerfile-mode)
+(require 'docker-compose-mode)
+#+END_SRC
+
+** TypeScript
+#+BEGIN_SRC emacs-lisp
+(require 'typescript-mode)
+(require 'rjsx-mode)
+
+(add-to-list 'auto-mode-alist '("\\.tsx\\'" . rjsx-mode))
 #+END_SRC
